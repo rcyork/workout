@@ -1,0 +1,15 @@
+.snapshot {
+  box-shadow: 4px 4px 4px grey;
+  border-radius: 5px;
+  background: white;
+}
+
+.snapshot__title {
+  font-size: 2rem;
+  text-align: center;
+  padding: 1rem 0;
+  background: var(--blue);
+  width: 100%;
+  border-radius: 5px 5px 0 0;
+  color: white;
+}

@@ -1,0 +1,18 @@
+.workout {
+  margin-bottom: 2rem;
+  border-radius: 5px;
+}
+
+.workout__tableWrap {
+  padding: 1rem;
+}
+
+.workout__table {
+  width: 100%;
+  line-height: 1.25rem;
+}
+
+.workout__table__labels th {
+  font-weight: bold;
+  padding-bottom: 0.5rem;
+}
