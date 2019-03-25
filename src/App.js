@@ -15,10 +15,10 @@ class App extends Component {
     nextWorkout: WORKOUTS.find(workout => workout.id === "wad1").exercises,
     firstVisit: true,
     workingWeights: [
-      { name: "deadlift", value: null },
-      { name: "row", value: null },
+      { name: "deadlift", value: 35 },
+      { name: "row", value: 0 },
       { name: "squat", value: null },
-      { name: "bench", value: null },
+      { name: "bench", value: 135 },
       { name: "ohp", value: null },
       { name: "chinup", value: 0 }
     ]
@@ -30,22 +30,6 @@ class App extends Component {
         workingWeights: prevState.workingWeights.map(item => {
           if (item.name === exercise) {
             return { ...item, value: (currentNumber += 5) };
-          } else {
-            return {
-              ...item
-            };
-          }
-        })
-      };
-    });
-  };
-
-  decrement = (currentNumber, exercise) => {
-    this.setState(prevState => {
-      return {
-        workingWeights: prevState.workingWeights.map(item => {
-          if (item.name === exercise) {
-            return { ...item, value: (currentNumber -= 5) };
           } else {
             return {
               ...item
@@ -85,7 +69,6 @@ class App extends Component {
                   modifier={modifier}
                   weights={this.state.workingWeights}
                   increment={this.increment}
-                  decrement={this.decrement}
                 />
               )}
             />

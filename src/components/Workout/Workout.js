@@ -14,6 +14,8 @@ export const Workout = ({
     return { ...exercise, weight };
   });
 
+  console.log(formattedWorkout);
+
   return (
     <div className={`workout ${modifier}`}>
       <div className={`workout__tableWrap`}>
@@ -48,19 +50,24 @@ export const Workout = ({
             <>
               {formattedWorkout.map(exercise => (
                 <tr key={exercise.name} className="row">
-                  <td align="left">{exercise.name}</td>
-                  <td align="center">
+                  <td align="left" className="cell">
+                    {exercise.name}
+                  </td>
+                  <td align="center" className="cell">
                     {exercise.sets} x {exercise.reps}
                   </td>
                   <td
-                    className="weight"
+                    className="weight cell"
                     align={
                       modifier === "snapshot" || "isCalculatingData"
                         ? "right"
                         : "center"
                     }
                   >
-                    {modifier === "isCollectingData" ? (
+                    {(exercise.weight === null &&
+                      modifier === "isCollectingData") ||
+                    (exercise.weight === 0 &&
+                      modifier === "isCollectingData") ? (
                       <>
                         <button
                           className="decrement"
@@ -82,12 +89,14 @@ export const Workout = ({
                           +
                         </button>
                       </>
-                    ) : (
+                    ) : exercise.weight === 0 ? (
                       exercise.weight
+                    ) : (
+                      "?"
                     )}
                   </td>
                   {modifier === "normal" ? (
-                    <td align="right">
+                    <td align="right" className="cell">
                       <input type="checkbox" />
                     </td>
                   ) : null}

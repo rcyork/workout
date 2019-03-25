@@ -2,6 +2,13 @@
   border-radius: 5px;
 }
 
+.isCollectingData .weight {
+  display: grid;
+  grid-auto-flow: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .workout__tableWrap {
   padding: 1rem;
 }
@@ -24,15 +31,15 @@
   cursor: pointer;
   font-size: 2rem;
   outline: none;
-  background: none;
+  background: var(--grey);
   border-radius: 5px;
   position: relative;
 }
 
 .weight {
-  display: grid;
-  grid-auto-flow: column;
-  align-items: center;
-  justify-content: space-between;
   font-size: 1.5rem;
+}
+
+.cell {
+  padding-bottom: 1rem;
 }
