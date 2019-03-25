@@ -1,10 +1,16 @@
 .welcome {
   height: 100%;
+  display: grid;
+  grid-auto-flow: row;
+  align-content: space-between;
+}
+
+.firstVisit .welcome {
+  min-height: 560px;
 }
 
 .welcomeCard {
   border-radius: 5px;
-  margin-bottom: 2rem;
   box-shadow: 4px 4px 4px grey;
   background: white;
 }

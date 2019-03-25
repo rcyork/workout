@@ -1,5 +1,4 @@
 .workout {
-  margin-bottom: 2rem;
   border-radius: 5px;
 }
 
@@ -13,6 +12,27 @@
 }
 
 .workout__table__labels th {
+  font-size: 0.8rem;
   font-weight: bold;
   padding-bottom: 0.5rem;
+}
+
+.increment,
+.decrement {
+  width: 3rem;
+  height: 3rem;
+  cursor: pointer;
+  font-size: 2rem;
+  outline: none;
+  background: none;
+  border-radius: 5px;
+  position: relative;
+}
+
+.weight {
+  display: grid;
+  grid-auto-flow: column;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 1.5rem;
 }

@@ -3,25 +3,25 @@ export const WORKOUTS = [
     id: "wad1",
     exercises: [
       {
-        type: "bench",
+        name: "bench",
         sets: 4,
         reps: 4,
         amrap: false
       },
       {
-        type: "squat",
+        name: "squat",
         sets: 4,
         reps: 8,
         amrap: false
       },
       {
-        type: "ohp",
+        name: "ohp",
         sets: 4,
         reps: 8,
         amrap: false
       },
       {
-        type: "chinups",
+        name: "chinup",
         sets: 4,
         reps: 8,
         amrap: false
@@ -32,25 +32,25 @@ export const WORKOUTS = [
     id: "wad2",
     exercises: [
       {
-        type: "bench",
+        name: "bench",
         sets: 4,
         reps: 8,
         amrap: false
       },
       {
-        type: "deadlift",
+        name: "deadlift",
         sets: 4,
         reps: 4,
         amrap: false
       },
       {
-        type: "ohp",
+        name: "ohp",
         sets: 4,
         reps: 4,
         amrap: false
       },
       {
-        type: "rows",
+        name: "row",
         sets: 4,
         reps: 8,
         amrap: false
@@ -61,25 +61,25 @@ export const WORKOUTS = [
     id: "wad3",
     exercises: [
       {
-        type: "bench",
+        name: "bench",
         sets: 3,
         reps: 4,
         amrap: true
       },
       {
-        type: "squat",
+        name: "squat",
         sets: 3,
         reps: 4,
         amrap: true
       },
       {
-        type: "ohp",
+        name: "ohp",
         sets: 4,
         reps: 8,
         amrap: false
       },
       {
-        type: "chinups",
+        name: "chinup",
         sets: 4,
         reps: 4,
         amrap: false
@@ -90,25 +90,25 @@ export const WORKOUTS = [
     id: "wbd1",
     exercises: [
       {
-        type: "bench",
+        name: "bench",
         sets: 4,
         reps: 8,
         amrap: false
       },
       {
-        type: "squat",
+        name: "squat",
         sets: 4,
         reps: 8,
         amrap: false
       },
       {
-        type: "ohp",
+        name: "ohp",
         sets: 4,
         reps: 4,
         amrap: false
       },
       {
-        type: "rows",
+        name: "row",
         sets: 4,
         reps: 4,
         amrap: false
@@ -119,25 +119,25 @@ export const WORKOUTS = [
     id: "wbd2",
     exercises: [
       {
-        type: "bench",
+        name: "bench",
         sets: 4,
         reps: 4,
         amrap: false
       },
       {
-        type: "squat",
+        name: "squat",
         sets: 4,
         reps: 8,
         amrap: false
       },
       {
-        type: "ohp",
+        name: "ohp",
         sets: 4,
         reps: 8,
         amrap: false
       },
       {
-        type: "chinups",
+        name: "chinup",
         sets: 4,
         reps: 8,
         amrap: false
@@ -148,25 +148,25 @@ export const WORKOUTS = [
     id: "wbd3",
     exercises: [
       {
-        type: "bench",
+        name: "bench",
         sets: 4,
         reps: 8,
         amrap: false
       },
       {
-        type: "deadlift",
+        name: "deadlift",
         sets: 3,
         reps: 4,
         amrap: true
       },
       {
-        type: "ohp",
+        name: "ohp",
         sets: 3,
         reps: 4,
         amrap: true
       },
       {
-        type: "rows",
+        name: "row",
         sets: 4,
         reps: 8,
         amrap: false

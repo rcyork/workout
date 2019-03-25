@@ -22,7 +22,7 @@
 // click log button that brings them to their log of workouts
 
 //! workout screen
-//? pass prop that determines if its a 'snapshot' (won't need radio buttons), 'firstTime' (needs weight input), or 'normal' (needs radio buttons)
+//? pass prop that determines if its a 'snapshot' (won't need radio buttons), 'collectingData' (needs weight input), or 'normal' (needs radio buttons)
 // be able to view next weeks weight so they can find a weight in the middle of the two in order to progress easier
 // check off completed exercise and leave failed exercises unchecked
 //? radio button that way you can use the true or false value of the 'completed' attribute to track exercise status when saving

@@ -1,0 +1,23 @@
+.button {
+  width: 100%;
+  font-size: 1.75rem;
+  padding: 1rem 0;
+  border-radius: 5px;
+  color: white;
+  box-shadow: 4px 4px 4px grey;
+  text-align: center;
+}
+
+.confirm {
+  background: var(--green);
+}
+
+.cancel {
+  background: var(--red);
+}
+
+a {
+  /* combats styling from generated 'a' tag via react-router's 'Link' component */
+  display: inline-block;
+  text-decoration: none;
+}

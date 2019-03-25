@@ -1,15 +1,14 @@
 import React from "react";
 
 import { Workout } from "../Workout/Workout";
-import { ConfirmButton } from "../ConfirmButton/ConfirmButton";
 
 import "./Snapshot.css";
 
-export const Snapshot = ({ data }) => {
+export const Snapshot = ({ exercises, weights }) => {
   return (
     <div className="snapshot">
-      <h2 className="snapshot__title">Next Workout</h2>
-      <Workout data={data} modifier="snapshot" />
+      <h2 className="snapshot__title">next workout</h2>
+      <Workout exercises={exercises} modifier="snapshot" weights={weights} />
     </div>
   );
 };

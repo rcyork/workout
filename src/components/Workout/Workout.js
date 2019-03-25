@@ -2,36 +2,95 @@ import React from "react";
 
 import "./Workout.css";
 
-export const Workout = ({ modifier, data }) => {
+export const Workout = ({
+  modifier,
+  exercises,
+  weights,
+  increment,
+  decrement
+}) => {
+  const formattedWorkout = exercises.map(exercise => {
+    const weight = weights.find(item => item.name === exercise.name).value;
+    return { ...exercise, weight };
+  });
+
   return (
-    <div className="workout">
+    <div className={`workout ${modifier}`}>
       <div className={`workout__tableWrap`}>
         <table className={`workout__table`}>
           <tbody>
             <tr className={`workout__table__labels`}>
               <th scope="col" align="left">
-                Exercises
+                exercises
               </th>
               <th scope="col" align="center">
-                Sets x Reps
+                sets x reps
               </th>
               <th
                 scope="col"
-                align={modifier === "snapshot" ? "right" : "center"}
+                align={
+                  modifier === "snapshot" || "isCalculatingData"
+                    ? "right"
+                    : "center"
+                }
               >
-                Weight
+                weight
               </th>
+              {modifier === "normal" ? (
+                <th align="right">
+                  <span role="img" aria-label="checkmark">
+                    ✔️
+                  </span>
+                  ?
+                </th>
+              ) : null}
             </tr>
             <>
-              {data.map(exercise => (
-                <tr key={exercise.type}>
-                  <td align="left">{exercise.type}</td>
+              {formattedWorkout.map(exercise => (
+                <tr key={exercise.name} className="row">
+                  <td align="left">{exercise.name}</td>
                   <td align="center">
                     {exercise.sets} x {exercise.reps}
                   </td>
-                  <td align={modifier === "snapshot" ? "right" : "center"}>
-                    ?
+                  <td
+                    className="weight"
+                    align={
+                      modifier === "snapshot" || "isCalculatingData"
+                        ? "right"
+                        : "center"
+                    }
+                  >
+                    {modifier === "isCollectingData" ? (
+                      <>
+                        <button
+                          className="decrement"
+                          data-name={exercise.name}
+                          onClick={() =>
+                            decrement(exercise.weight || 0, exercise.name)
+                          }
+                        >
+                          -
+                        </button>
+                        <span>{exercise.weight || 0}</span>
+                        <button
+                          className="increment"
+                          data-name={exercise.name}
+                          onClick={() =>
+                            increment(exercise.weight || 0, exercise.name)
+                          }
+                        >
+                          +
+                        </button>
+                      </>
+                    ) : (
+                      exercise.weight
+                    )}
                   </td>
+                  {modifier === "normal" ? (
+                    <td align="right">
+                      <input type="checkbox" />
+                    </td>
+                  ) : null}
                 </tr>
               ))}
             </>

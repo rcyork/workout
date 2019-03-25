@@ -2,17 +2,17 @@ import React from "react";
 
 import { WORKOUTS } from "../../../workouts";
 import { Snapshot } from "../../Snapshot/Snapshot";
-import { ConfirmButton } from "../../ConfirmButton/ConfirmButton";
+import { Button } from "../../Button/Button";
 
 import "./Welcome.css";
 
-export const Welcome = () => {
-  const data = WORKOUTS.find(workout => workout.id === "wad1").exercises;
+export const Welcome = ({ weights, firstVisit }) => {
+  const exercises = WORKOUTS.find(workout => workout.id === "wad1").exercises;
 
   return (
-    <div className="welcome">
+    <div className={`${firstVisit ? "firstVisit" : ""} welcome`}>
       <div className="welcomeCard">
-        <h1 className="welcomeCard__title">About</h1>
+        <h1 className="welcomeCard__title">about</h1>
         <ul className="welcomeCard__bullets">
           <li className="welcomeCard__bullet">three workouts per week</li>
           <li className="welcomeCard__bullet">
@@ -26,8 +26,12 @@ export const Welcome = () => {
           </li>
         </ul>
       </div>
-      <Snapshot data={data} />
-      <ConfirmButton text="Start First Workout" type="redirect" />
+      <Snapshot exercises={exercises} weights={weights} />
+      <Button
+        text="start first workout"
+        destination="/active-workout"
+        type="confirm"
+      />
     </div>
   );
 };
