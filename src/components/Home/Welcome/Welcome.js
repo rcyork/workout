@@ -26,12 +26,15 @@ export const Welcome = ({ weights, firstVisit }) => {
           </li>
         </ul>
       </div>
-      <Snapshot exercises={exercises} weights={weights} />
+      <Snapshot exercises={exercises} weights={weights} title="next workout" />
       <Button
         text="start first workout"
         destination="/active-workout"
         type="confirm"
       />
+      {!firstVisit ? (
+        <Button text="view log" destination="/log" type="nav" />
+      ) : null}
     </div>
   );
 };

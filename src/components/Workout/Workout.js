@@ -7,14 +7,13 @@ export const Workout = ({
   exercises,
   weights,
   increment,
-  decrement
+  decrement,
+  isCollectingData
 }) => {
   const formattedWorkout = exercises.map(exercise => {
-    const weight = weights.find(item => item.name === exercise.name).value;
+    const weight = weights.find(item => item.name === exercise.name).weight;
     return { ...exercise, weight };
   });
-
-  console.log(formattedWorkout);
 
   return (
     <div className={`workout ${modifier}`}>
@@ -89,10 +88,10 @@ export const Workout = ({
                           +
                         </button>
                       </>
-                    ) : exercise.weight === 0 ? (
-                      exercise.weight
-                    ) : (
+                    ) : exercise.weight === null ? (
                       "?"
+                    ) : (
+                      exercise.weight
                     )}
                   </td>
                   {modifier === "normal" ? (

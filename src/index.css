@@ -4,15 +4,10 @@
 
 :root {
   --blue: #007aff;
+  --purple: #5856d6;
   --green: #4cd964;
   --red: #ff3b30;
   --grey: #cfcfcf;
-}
-
-html,
-body,
-#root {
-  height: 100vh;
 }
 
 body {

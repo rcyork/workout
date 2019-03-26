@@ -16,6 +16,10 @@
   background: var(--red);
 }
 
+.nav {
+  background: var(--purple);
+}
+
 a {
   /* combats styling from generated 'a' tag via react-router's 'Link' component */
   display: inline-block;

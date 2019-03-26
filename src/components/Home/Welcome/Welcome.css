@@ -2,7 +2,7 @@
   height: 100%;
   display: grid;
   grid-auto-flow: row;
-  align-content: space-between;
+  grid-gap: 1rem;
 }
 
 .firstVisit .welcome {

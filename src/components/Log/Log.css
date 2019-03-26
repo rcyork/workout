@@ -1,0 +1,6 @@
+.log {
+  display: grid;
+  grid-auto-flow: row;
+  grid-gap: 2rem;
+  height: 100%;
+}

@@ -1,26 +1,236 @@
 import React, { Component } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 
+import ScrollToTop from "./ScrollToTop";
+
 import { Welcome } from "./components/Home/Welcome/Welcome";
 import { ActiveWorkout } from "./components/ActiveWorkout/ActiveWorkout";
+import { Log } from "./components/Log/Log";
+
 import { WORKOUTS } from "./workouts";
 import "./App.css";
 
 function getIsCollectingData(workingWeights) {
-  return workingWeights.some(item => item.value === null);
+  return workingWeights.some(item => item.weight === null);
 }
 
 class App extends Component {
   state = {
     nextWorkout: WORKOUTS.find(workout => workout.id === "wad1").exercises,
-    firstVisit: true,
+    firstVisit: false,
     workingWeights: [
-      { name: "deadlift", value: 35 },
-      { name: "row", value: 0 },
-      { name: "squat", value: null },
-      { name: "bench", value: 135 },
-      { name: "ohp", value: null },
-      { name: "chinup", value: 0 }
+      { name: "deadlift" },
+      { name: "row", weight: 0 },
+      { name: "squat", weight: null },
+      { name: "bench", weight: 135 },
+      { name: "ohp", weight: null },
+      { name: "chinup", weight: 0 }
+    ],
+    log: [
+      {
+        id: "wad1",
+        key: Date.now(),
+        exercises: [
+          {
+            name: "bench",
+            sets: 4,
+            reps: 4,
+            amrap: false,
+            weight: 135
+          },
+          {
+            name: "squat",
+            sets: 4,
+            reps: 8,
+            amrap: false,
+            weight: 135
+          },
+          {
+            name: "ohp",
+            sets: 4,
+            reps: 8,
+            amrap: false,
+            weight: 135
+          },
+          {
+            name: "chinup",
+            sets: 4,
+            reps: 8,
+            amrap: false,
+            weight: 0
+          }
+        ]
+      },
+      {
+        id: "wad2",
+        key: new Date("02-18-1993"),
+        exercises: [
+          {
+            name: "squat",
+            sets: 4,
+            reps: 4,
+            amrap: false,
+            weight: 135
+          },
+          {
+            name: "deadlift",
+            sets: 4,
+            reps: 8,
+            amrap: false,
+            weight: 135
+          },
+          {
+            name: "row",
+            sets: 4,
+            reps: 8,
+            amrap: false,
+            weight: 135
+          },
+          {
+            name: "chinup",
+            sets: 4,
+            reps: 8,
+            amrap: false,
+            weight: 0
+          }
+        ]
+      },
+      {
+        id: "wad2",
+        key: new Date("02-18-1993"),
+        exercises: [
+          {
+            name: "squat",
+            sets: 4,
+            reps: 4,
+            amrap: false,
+            weight: 135
+          },
+          {
+            name: "deadlift",
+            sets: 4,
+            reps: 8,
+            amrap: false,
+            weight: 135
+          },
+          {
+            name: "row",
+            sets: 4,
+            reps: 8,
+            amrap: false,
+            weight: 135
+          },
+          {
+            name: "chinup",
+            sets: 4,
+            reps: 8,
+            amrap: false,
+            weight: 0
+          }
+        ]
+      },
+      {
+        id: "wad2",
+        key: new Date("02-18-1993"),
+        exercises: [
+          {
+            name: "squat",
+            sets: 4,
+            reps: 4,
+            amrap: false,
+            weight: 135
+          },
+          {
+            name: "deadlift",
+            sets: 4,
+            reps: 8,
+            amrap: false,
+            weight: 135
+          },
+          {
+            name: "row",
+            sets: 4,
+            reps: 8,
+            amrap: false,
+            weight: 135
+          },
+          {
+            name: "chinup",
+            sets: 4,
+            reps: 8,
+            amrap: false,
+            weight: 0
+          }
+        ]
+      },
+      {
+        id: "wad2",
+        key: new Date("02-18-1993"),
+        exercises: [
+          {
+            name: "squat",
+            sets: 4,
+            reps: 4,
+            amrap: false,
+            weight: 135
+          },
+          {
+            name: "deadlift",
+            sets: 4,
+            reps: 8,
+            amrap: false,
+            weight: 135
+          },
+          {
+            name: "row",
+            sets: 4,
+            reps: 8,
+            amrap: false,
+            weight: 135
+          },
+          {
+            name: "chinup",
+            sets: 4,
+            reps: 8,
+            amrap: false,
+            weight: 0
+          }
+        ]
+      },
+      {
+        id: "wad2",
+        key: new Date("02-18-1993"),
+        exercises: [
+          {
+            name: "squat",
+            sets: 4,
+            reps: 4,
+            amrap: false,
+            weight: 135
+          },
+          {
+            name: "deadlift",
+            sets: 4,
+            reps: 8,
+            amrap: false,
+            weight: 135
+          },
+          {
+            name: "row",
+            sets: 4,
+            reps: 8,
+            amrap: false,
+            weight: 135
+          },
+          {
+            name: "chinup",
+            sets: 4,
+            reps: 8,
+            amrap: false,
+            weight: 0
+          }
+        ]
+      }
     ]
   };
 
@@ -48,31 +258,38 @@ class App extends Component {
     return (
       <div className="app">
         <BrowserRouter>
-          <Switch>
-            <Route
-              exact
-              path="/"
-              render={() => (
-                <Welcome
-                  nextWorkout={this.state.nextWorkout}
-                  firstVisit={this.state.firstVisit}
-                  weights={this.state.workingWeights}
-                />
-              )}
-            />
-            <Route
-              exact
-              path="/active-workout"
-              render={() => (
-                <ActiveWorkout
-                  exercises={this.state.nextWorkout}
-                  modifier={modifier}
-                  weights={this.state.workingWeights}
-                  increment={this.increment}
-                />
-              )}
-            />
-          </Switch>
+          <ScrollToTop>
+            <Switch>
+              <Route
+                exact
+                path="/"
+                render={() => (
+                  <Welcome
+                    nextWorkout={this.state.nextWorkout}
+                    firstVisit={this.state.firstVisit}
+                    weights={this.state.workingWeights}
+                  />
+                )}
+              />
+              <Route
+                exact
+                path="/active-workout"
+                render={() => (
+                  <ActiveWorkout
+                    exercises={this.state.nextWorkout}
+                    modifier={modifier}
+                    weights={this.state.workingWeights}
+                    increment={this.increment}
+                  />
+                )}
+              />
+              <Route
+                exact
+                path="/log"
+                render={() => <Log log={this.state.log} />}
+              />
+            </Switch>
+          </ScrollToTop>
         </BrowserRouter>
       </div>
     );

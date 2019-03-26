@@ -10,7 +10,8 @@ export const ActiveWorkout = ({
   exercises,
   weights,
   increment,
-  decrement
+  decrement,
+  isCollectingData
 }) => {
   return (
     <div className="activeWorkout">
@@ -21,6 +22,7 @@ export const ActiveWorkout = ({
         weights={weights}
         increment={increment}
         decrement={decrement}
+        isCollectingData={isCollectingData}
       />
       <Button text="complete workout" destination="/" type="confirm" />
     </div>
