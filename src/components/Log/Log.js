@@ -10,7 +10,7 @@ export const Log = ({ log }) => {
     <div className="log">
       <Button text="back" type="cancel" destination="/" />
       {log.map(item => {
-        const exercises = item.exercises;
+        const workout = item;
         const weights = item.exercises.map(exercise => {
           return { name: exercise.name, weight: exercise.weight };
         });
@@ -18,7 +18,7 @@ export const Log = ({ log }) => {
         return (
           <Snapshot
             title="test"
-            exercises={exercises}
+            workout={workout}
             weights={weights}
             key={item.key}
           />

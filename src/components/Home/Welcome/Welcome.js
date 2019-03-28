@@ -7,7 +7,7 @@ import { Button } from "../../Button/Button";
 import "./Welcome.css";
 
 export const Welcome = ({ weights, firstVisit }) => {
-  const exercises = WORKOUTS.find(workout => workout.id === "wad1").exercises;
+  const workout = WORKOUTS.find(workout => workout.id === "wad1");
 
   return (
     <div className={`${firstVisit ? "firstVisit" : ""} welcome`}>
@@ -26,7 +26,7 @@ export const Welcome = ({ weights, firstVisit }) => {
           </li>
         </ul>
       </div>
-      <Snapshot exercises={exercises} weights={weights} title="next workout" />
+      <Snapshot workout={workout} weights={weights} title="next workout" />
       <Button
         text="start first workout"
         destination="/active-workout"

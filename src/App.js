@@ -16,7 +16,7 @@ function getIsCollectingData(workingWeights) {
 
 class App extends React.Component {
   state = {
-    nextWorkout: WORKOUTS.find(workout => workout.id === "wad1").exercises,
+    nextWorkout: WORKOUTS.find(workout => workout.id === "wad1"),
     firstVisit: false,
     workingWeights: [
       { name: "deadlift", weight: 0 },
@@ -234,6 +234,14 @@ class App extends React.Component {
     ]
   };
 
+  logWorkout = workout => {
+    this.setState(prevState => {
+      return {
+        log: [{ ...workout }, ...prevState.log]
+      };
+    });
+  };
+
   render() {
     const modifier = getIsCollectingData(this.state.workingWeights)
       ? "isCollectingData"
@@ -260,11 +268,12 @@ class App extends React.Component {
                 path="/active-workout"
                 render={() => (
                   <ActiveWorkout
-                    exercises={this.state.nextWorkout}
+                    workout={this.state.nextWorkout}
                     modifier={modifier}
                     weights={this.state.workingWeights}
                     increment={this.increment}
                     decrement={this.decrement}
+                    logWorkout={this.logWorkout}
                   />
                 )}
               />

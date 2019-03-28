@@ -1,5 +1,7 @@
 import React from "react";
 
+import { Button } from "../Button/Button";
+
 import "./Workout.css";
 
 export class Workout extends React.Component {
@@ -46,25 +48,11 @@ export class Workout extends React.Component {
     });
   };
 
-  componentDidMount() {
-    const { weights } = this.props;
-
-    this.setState(prevState => {
-      return {
-        thisWorkoutsWeights: prevState.thisWorkoutsWeights.map(item => {
-          return {
-            ...item,
-            weight: weights.find(entry => entry.name === item.name).weight
-          };
-        })
-      };
-    });
-  }
-
   render() {
-    const { exercises, weights, modifier } = this.props;
+    const { workout, weights, modifier, logWorkout } = this.props;
+
     const { increment, decrement } = this;
-    const formattedWorkout = exercises.map(exercise => {
+    const formattedWorkout = workout.exercises.map(exercise => {
       const weight = weights.find(item => item.name === exercise.name).weight;
       return { ...exercise, weight };
     });
@@ -110,10 +98,12 @@ export class Workout extends React.Component {
                     </td>
                     <td
                       className={
-                        weights.find(item => item.name === exercise.name)
-                          .weight === null ||
-                        weights.find(item => item.name === exercise.name)
-                          .weight === 0
+                        (weights.find(item => item.name === exercise.name)
+                          .weight === null &&
+                          modifier === "isCollectingData") ||
+                        (weights.find(item => item.name === exercise.name)
+                          .weight === 0 &&
+                          modifier === "isCollectingData")
                           ? "inputtingWeight"
                           : ""
                       }
@@ -179,6 +169,30 @@ export class Workout extends React.Component {
             </tbody>
           </table>
         </div>
+        {modifier === "snapshot" ? null : (
+          <Button
+            text="complete workout"
+            destination="/"
+            type="confirm"
+            logWorkout={() => {
+              logWorkout({
+                id: workout.id,
+                key: new Date(),
+                exercises: workout.exercises.map(item => {
+                  return {
+                    ...item,
+                    weight: weights.find(entry => entry.name === item.name)
+                      .weight
+                      ? weights.find(entry => entry.name === item.name).weight
+                      : this.state.thisWorkoutsWeights.find(
+                          entry => entry.name === item.name
+                        ).weight
+                  };
+                })
+              });
+            }}
+          />
+        )}
       </div>
     );
   }

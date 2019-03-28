@@ -7,24 +7,25 @@ import "./ActiveWorkout.css";
 
 export const ActiveWorkout = ({
   modifier,
-  exercises,
+  workout,
   weights,
   increment,
   decrement,
-  isCollectingData
+  isCollectingData,
+  logWorkout
 }) => {
   return (
     <div className="activeWorkout">
       <Button text="cancel" destination="/" type="cancel" />
       <Workout
         modifier={modifier}
-        exercises={exercises}
+        workout={workout}
         weights={weights}
         increment={increment}
         decrement={decrement}
         isCollectingData={isCollectingData}
+        logWorkout={logWorkout}
       />
-      <Button text="complete workout" destination="/" type="confirm" />
     </div>
   );
 };
