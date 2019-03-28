@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 import ScrollToTop from "./ScrollToTop";
@@ -14,14 +14,14 @@ function getIsCollectingData(workingWeights) {
   return workingWeights.some(item => item.weight === null);
 }
 
-class App extends Component {
+class App extends React.Component {
   state = {
     nextWorkout: WORKOUTS.find(workout => workout.id === "wad1").exercises,
     firstVisit: false,
     workingWeights: [
-      { name: "deadlift" },
+      { name: "deadlift", weight: 0 },
       { name: "row", weight: 0 },
-      { name: "squat", weight: null },
+      { name: "squat", weight: 225 },
       { name: "bench", weight: 135 },
       { name: "ohp", weight: null },
       { name: "chinup", weight: 0 }
@@ -234,22 +234,6 @@ class App extends Component {
     ]
   };
 
-  increment = (currentNumber, exercise) => {
-    this.setState(prevState => {
-      return {
-        workingWeights: prevState.workingWeights.map(item => {
-          if (item.name === exercise) {
-            return { ...item, value: (currentNumber += 5) };
-          } else {
-            return {
-              ...item
-            };
-          }
-        })
-      };
-    });
-  };
-
   render() {
     const modifier = getIsCollectingData(this.state.workingWeights)
       ? "isCollectingData"
@@ -280,6 +264,7 @@ class App extends Component {
                     modifier={modifier}
                     weights={this.state.workingWeights}
                     increment={this.increment}
+                    decrement={this.decrement}
                   />
                 )}
               />

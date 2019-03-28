@@ -2,11 +2,17 @@
   border-radius: 5px;
 }
 
-.isCollectingData .weight {
+.inputtingWeight {
   display: grid;
-  grid-auto-flow: column;
+  grid-template-columns: repeat(3, max-content);
   align-items: center;
+  justify-items: center;
   justify-content: space-between;
+}
+
+.adjustableWeight {
+  width: 2rem; /* reduce jank from resizing of element as the number increases from single -> double -> triple digits */
+  text-align: center;
 }
 
 .workout__tableWrap {
