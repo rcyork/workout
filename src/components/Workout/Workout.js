@@ -49,7 +49,15 @@ export class Workout extends React.Component {
   };
 
   render() {
-    const { workout, weights, modifier, logWorkout } = this.props;
+    const {
+      workout,
+      weights,
+      modifier,
+      logWorkout,
+      editWorkout,
+      purpose,
+      destination
+    } = this.props;
 
     const { increment, decrement } = this;
     const formattedWorkout = workout.exercises.map(exercise => {
@@ -171,9 +179,27 @@ export class Workout extends React.Component {
         </div>
         {modifier === "snapshot" ? null : (
           <Button
-            text="complete workout"
-            destination="/"
+            purpose={purpose}
+            text={purpose === "edit" ? "save" : "complete workout"}
+            destination={destination}
             type="confirm"
+            editWorkout={() => {
+              editWorkout({
+                ...workout,
+                exercises: workout.exercises.map(item => {
+                  return {
+                    ...item,
+                    weight: this.state.thisWorkoutsWeights.find(
+                      entry => entry.name === item.name
+                    ).weight
+                      ? this.state.thisWorkoutsWeights.find(
+                          entry => entry.name === item.name
+                        ).weight
+                      : item.weight
+                  };
+                })
+              });
+            }}
             logWorkout={() => {
               logWorkout({
                 id: workout.id,

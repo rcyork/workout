@@ -5,11 +5,29 @@
 }
 
 .snapshot__title {
-  font-size: 2rem;
+  font-size: 1.5rem;
   text-align: center;
-  padding: 1rem 0;
+  padding: 1rem;
   background: var(--blue);
   width: 100%;
   border-radius: 5px 5px 0 0;
   color: white;
+}
+
+.isLogCard {
+  display: grid;
+  grid-template-columns: max-content max-content;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.fa-pen {
+  padding: 0.5rem;
+  color: white;
+}
+
+.editLogEntry {
+  background: none;
+  cursor: pointer;
+  outline: none;
 }

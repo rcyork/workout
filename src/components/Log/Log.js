@@ -5,7 +5,7 @@ import { Button } from "../Button/Button";
 
 import "./Log.css";
 
-export const Log = ({ log }) => {
+export const Log = ({ log, editWorkout, setWorkoutToEdit }) => {
   return (
     <div className="log">
       <Button text="back" type="cancel" destination="/" />
@@ -17,10 +17,12 @@ export const Log = ({ log }) => {
 
         return (
           <Snapshot
-            title="test"
+            setWorkoutToEdit={setWorkoutToEdit}
+            editWorkout={editWorkout}
             workout={workout}
             weights={weights}
             key={item.key}
+            isLogCard={true}
           />
         );
       })}

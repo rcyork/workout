@@ -12,19 +12,35 @@ export const ActiveWorkout = ({
   increment,
   decrement,
   isCollectingData,
-  logWorkout
+  logWorkout,
+  isEditingLogEntry,
+  editWorkout
 }) => {
   return (
     <div className="activeWorkout">
-      <Button text="cancel" destination="/" type="cancel" />
+      <Button
+        text="cancel"
+        destination={isEditingLogEntry ? "/log" : "/"}
+        type="cancel"
+      />
       <Workout
+        purpose={isEditingLogEntry ? "edit" : null}
+        destination={isEditingLogEntry ? "/log" : "/"}
         modifier={modifier}
         workout={workout}
-        weights={weights}
+        weights={
+          isEditingLogEntry
+            ? workout.exercises.map(item => ({
+                name: item.name,
+                weight: item.weight
+              }))
+            : weights
+        }
         increment={increment}
         decrement={decrement}
         isCollectingData={isCollectingData}
         logWorkout={logWorkout}
+        editWorkout={editWorkout}
       />
     </div>
   );

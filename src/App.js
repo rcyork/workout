@@ -17,6 +17,7 @@ function getIsCollectingData(workingWeights) {
 class App extends React.Component {
   state = {
     nextWorkout: WORKOUTS.find(workout => workout.id === "wad1"),
+    workoutToEdit: null,
     firstVisit: false,
     workingWeights: [
       { name: "deadlift", weight: 0 },
@@ -60,176 +61,6 @@ class App extends React.Component {
             weight: 0
           }
         ]
-      },
-      {
-        id: "wad2",
-        key: new Date("02-18-1993"),
-        exercises: [
-          {
-            name: "squat",
-            sets: 4,
-            reps: 4,
-            amrap: false,
-            weight: 135
-          },
-          {
-            name: "deadlift",
-            sets: 4,
-            reps: 8,
-            amrap: false,
-            weight: 135
-          },
-          {
-            name: "row",
-            sets: 4,
-            reps: 8,
-            amrap: false,
-            weight: 135
-          },
-          {
-            name: "chinup",
-            sets: 4,
-            reps: 8,
-            amrap: false,
-            weight: 0
-          }
-        ]
-      },
-      {
-        id: "wad2",
-        key: new Date("02-18-1993"),
-        exercises: [
-          {
-            name: "squat",
-            sets: 4,
-            reps: 4,
-            amrap: false,
-            weight: 135
-          },
-          {
-            name: "deadlift",
-            sets: 4,
-            reps: 8,
-            amrap: false,
-            weight: 135
-          },
-          {
-            name: "row",
-            sets: 4,
-            reps: 8,
-            amrap: false,
-            weight: 135
-          },
-          {
-            name: "chinup",
-            sets: 4,
-            reps: 8,
-            amrap: false,
-            weight: 0
-          }
-        ]
-      },
-      {
-        id: "wad2",
-        key: new Date("02-18-1993"),
-        exercises: [
-          {
-            name: "squat",
-            sets: 4,
-            reps: 4,
-            amrap: false,
-            weight: 135
-          },
-          {
-            name: "deadlift",
-            sets: 4,
-            reps: 8,
-            amrap: false,
-            weight: 135
-          },
-          {
-            name: "row",
-            sets: 4,
-            reps: 8,
-            amrap: false,
-            weight: 135
-          },
-          {
-            name: "chinup",
-            sets: 4,
-            reps: 8,
-            amrap: false,
-            weight: 0
-          }
-        ]
-      },
-      {
-        id: "wad2",
-        key: new Date("02-18-1993"),
-        exercises: [
-          {
-            name: "squat",
-            sets: 4,
-            reps: 4,
-            amrap: false,
-            weight: 135
-          },
-          {
-            name: "deadlift",
-            sets: 4,
-            reps: 8,
-            amrap: false,
-            weight: 135
-          },
-          {
-            name: "row",
-            sets: 4,
-            reps: 8,
-            amrap: false,
-            weight: 135
-          },
-          {
-            name: "chinup",
-            sets: 4,
-            reps: 8,
-            amrap: false,
-            weight: 0
-          }
-        ]
-      },
-      {
-        id: "wad2",
-        key: new Date("02-18-1993"),
-        exercises: [
-          {
-            name: "squat",
-            sets: 4,
-            reps: 4,
-            amrap: false,
-            weight: 135
-          },
-          {
-            name: "deadlift",
-            sets: 4,
-            reps: 8,
-            amrap: false,
-            weight: 135
-          },
-          {
-            name: "row",
-            sets: 4,
-            reps: 8,
-            amrap: false,
-            weight: 135
-          },
-          {
-            name: "chinup",
-            sets: 4,
-            reps: 8,
-            amrap: false,
-            weight: 0
-          }
-        ]
       }
     ]
   };
@@ -240,6 +71,26 @@ class App extends React.Component {
         log: [{ ...workout }, ...prevState.log]
       };
     });
+  };
+
+  editWorkout = workout => {
+    this.setState(prevState => {
+      return {
+        workoutToEdit: null,
+        log: prevState.log.map(entry => {
+          if (entry.key === workout.key) {
+            return { ...workout };
+          }
+          return {
+            ...entry
+          };
+        })
+      };
+    });
+  };
+
+  setWorkoutToEdit = id => {
+    this.setState({ workoutToEdit: id });
   };
 
   render() {
@@ -266,21 +117,35 @@ class App extends React.Component {
               <Route
                 exact
                 path="/active-workout"
-                render={() => (
-                  <ActiveWorkout
-                    workout={this.state.nextWorkout}
-                    modifier={modifier}
-                    weights={this.state.workingWeights}
-                    increment={this.increment}
-                    decrement={this.decrement}
-                    logWorkout={this.logWorkout}
-                  />
-                )}
+                render={() => {
+                  return (
+                    <ActiveWorkout
+                      workout={
+                        this.state.workoutToEdit
+                          ? this.state.log.find(
+                              item => item.key === this.state.workoutToEdit
+                            )
+                          : this.state.nextWorkout
+                      }
+                      modifier={modifier}
+                      weights={this.state.workingWeights}
+                      logWorkout={this.logWorkout}
+                      isEditingLogEntry={this.state.workoutToEdit}
+                      editWorkout={this.editWorkout}
+                    />
+                  );
+                }}
               />
               <Route
                 exact
                 path="/log"
-                render={() => <Log log={this.state.log} />}
+                render={() => (
+                  <Log
+                    log={this.state.log}
+                    editWorkout={this.editWorkout}
+                    setWorkoutToEdit={this.setWorkoutToEdit}
+                  />
+                )}
               />
             </Switch>
           </ScrollToTop>
