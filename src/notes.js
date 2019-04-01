@@ -53,3 +53,6 @@
 // friday - finish math for all progression and deload options
 // satuday - start persistence work with local storage
 // sunday - finish local storage persisitence and fix any outstanding issues on app
+
+// TODO :
+//? make originally editable weight values still editable upon repeat edits of logs

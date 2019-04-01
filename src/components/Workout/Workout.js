@@ -179,43 +179,42 @@ export class Workout extends React.Component {
         </div>
         {modifier === "snapshot" ? null : (
           <Button
-            purpose={purpose}
             text={purpose === "edit" ? "save" : "complete workout"}
             destination={destination}
             type="confirm"
-            editWorkout={() => {
-              editWorkout({
-                ...workout,
-                exercises: workout.exercises.map(item => {
-                  return {
-                    ...item,
-                    weight: this.state.thisWorkoutsWeights.find(
-                      entry => entry.name === item.name
-                    ).weight
-                      ? this.state.thisWorkoutsWeights.find(
+            onClick={() => {
+              purpose === "edit"
+                ? editWorkout({
+                    ...workout,
+                    exercises: workout.exercises.map(item => {
+                      return {
+                        ...item,
+                        weight: this.state.thisWorkoutsWeights.find(
                           entry => entry.name === item.name
                         ).weight
-                      : item.weight
-                  };
-                })
-              });
-            }}
-            logWorkout={() => {
-              logWorkout({
-                id: workout.id,
-                key: new Date(),
-                exercises: workout.exercises.map(item => {
-                  return {
-                    ...item,
-                    weight: weights.find(entry => entry.name === item.name)
-                      .weight
-                      ? weights.find(entry => entry.name === item.name).weight
-                      : this.state.thisWorkoutsWeights.find(
-                          entry => entry.name === item.name
-                        ).weight
-                  };
-                })
-              });
+                          ? this.state.thisWorkoutsWeights.find(
+                              entry => entry.name === item.name
+                            ).weight
+                          : item.weight
+                      };
+                    })
+                  })
+                : logWorkout({
+                    id: workout.id,
+                    key: new Date(),
+                    exercises: workout.exercises.map(item => {
+                      return {
+                        ...item,
+                        weight: weights.find(entry => entry.name === item.name)
+                          .weight
+                          ? weights.find(entry => entry.name === item.name)
+                              .weight
+                          : this.state.thisWorkoutsWeights.find(
+                              entry => entry.name === item.name
+                            ).weight
+                      };
+                    })
+                  });
             }}
           />
         )}

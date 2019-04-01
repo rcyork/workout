@@ -10,14 +10,12 @@ export const Button = ({
   type,
   logWorkout,
   purpose,
-  editWorkout
+  editWorkout,
+  onClick
 }) => {
+  const handleOnClickOptions = purpose === "edit" ? editWorkout : logWorkout;
   return (
-    <Link
-      to={`${destination}`}
-      className={`button ${type}`}
-      onClick={purpose === "edit" ? editWorkout : logWorkout}
-    >
+    <Link to={`${destination}`} className={`button ${type}`} onClick={onClick}>
       {text}
     </Link>
   );

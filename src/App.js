@@ -18,7 +18,7 @@ class App extends React.Component {
   state = {
     nextWorkout: WORKOUTS.find(workout => workout.id === "wad1"),
     workoutToEdit: null,
-    firstVisit: false,
+    firstVisit: true,
     workingWeights: [
       { name: "deadlift", weight: 0 },
       { name: "row", weight: 0 },
@@ -93,6 +93,10 @@ class App extends React.Component {
     this.setState({ workoutToEdit: id });
   };
 
+  setFirstVisitToFalse = () => {
+    this.setState({ firstVisit: false });
+  };
+
   render() {
     const modifier = getIsCollectingData(this.state.workingWeights)
       ? "isCollectingData"
@@ -111,6 +115,7 @@ class App extends React.Component {
                     nextWorkout={this.state.nextWorkout}
                     firstVisit={this.state.firstVisit}
                     weights={this.state.workingWeights}
+                    setFirstVisitToFalse={this.setFirstVisitToFalse}
                   />
                 )}
               />
