@@ -15,7 +15,7 @@ export const Welcome = ({ weights, firstVisit, setFirstVisitToFalse }) => {
       {firstVisit ? <AboutCard /> : null}
       <Snapshot workout={workout} weights={weights} title="next workout" />
       <Button
-        text="start first workout"
+        text={firstVisit ? "start first workout" : "start next workout"}
         destination="/active-workout"
         type="confirm"
         onClick={firstVisit ? setFirstVisitToFalse : null}

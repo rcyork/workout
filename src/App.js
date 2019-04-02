@@ -18,10 +18,10 @@ class App extends React.Component {
   state = {
     nextWorkout: WORKOUTS.find(workout => workout.id === "wad1"),
     workoutToEdit: null,
-    firstVisit: true,
+    firstVisit: false,
     workingWeights: [
-      { name: "deadlift", weight: 0 },
-      { name: "row", weight: 0 },
+      { name: "deadlift", weight: null },
+      { name: "row", weight: null },
       { name: "squat", weight: 225 },
       { name: "bench", weight: 135 },
       { name: "ohp", weight: null },
@@ -37,7 +37,8 @@ class App extends React.Component {
             sets: 4,
             reps: 4,
             amrap: false,
-            weight: 135
+            weight: null,
+            isEditable: true
           },
           {
             name: "squat",
@@ -58,6 +59,7 @@ class App extends React.Component {
             sets: 4,
             reps: 8,
             amrap: false,
+            isEditable: true,
             weight: 0
           }
         ]
