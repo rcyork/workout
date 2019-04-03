@@ -13,8 +13,8 @@ export const Snapshot = ({
   weights,
   title,
   isLogCard,
-  editWorkout,
-  setWorkoutToEdit
+  deleteLogEntry,
+  isLogEmpty
 }) => {
   return (
     <div className="snapshot">
@@ -22,11 +22,11 @@ export const Snapshot = ({
         {title ? title : moment(workout.key).format("LL")}
         {isLogCard ? (
           <Link
-            className="editLogEntry"
-            to="/active-workout"
-            onClick={() => setWorkoutToEdit(workout.key)}
+            to={isLogEmpty ? "/" : "/log"}
+            className="deleteLogEntry"
+            onClick={() => deleteLogEntry(workout.key)}
           >
-            <span className="fas fa-pen" />
+            <span className="fas fa-trash" />
           </Link>
         ) : null}
       </h2>
@@ -34,7 +34,6 @@ export const Snapshot = ({
         workout={workout}
         modifier="snapshot"
         weights={weights}
-        editWorkout={editWorkout}
         purpose={isLogCard ? "edit" : "log"}
         destination={isLogCard ? "/active-workout" : "/"}
       />

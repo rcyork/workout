@@ -37,8 +37,7 @@ class App extends React.Component {
             sets: 4,
             reps: 4,
             amrap: false,
-            weight: null,
-            isEditable: true
+            weight: null
           },
           {
             name: "squat",
@@ -59,7 +58,6 @@ class App extends React.Component {
             sets: 4,
             reps: 8,
             amrap: false,
-            isEditable: true,
             weight: 0
           }
         ]
@@ -91,8 +89,12 @@ class App extends React.Component {
     });
   };
 
-  setWorkoutToEdit = id => {
-    this.setState({ workoutToEdit: id });
+  deleteLogEntry = key => {
+    this.setState(prevState => {
+      return {
+        log: prevState.log.filter(log => log.key !== key)
+      };
+    });
   };
 
   setFirstVisitToFalse = () => {
@@ -150,7 +152,11 @@ class App extends React.Component {
                   <Log
                     log={this.state.log}
                     editWorkout={this.editWorkout}
-                    setWorkoutToEdit={this.setWorkoutToEdit}
+                    deleteLogEntry={this.deleteLogEntry}
+                    isLogEmpty={
+                      this.state.log === undefined ||
+                      this.state.log.length === 0
+                    }
                   />
                 )}
               />

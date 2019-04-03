@@ -21,12 +21,12 @@
   align-items: center;
 }
 
-.fa-pen {
+.fa-trash {
   padding: 0.5rem;
   color: white;
 }
 
-.editLogEntry {
+.deleteLogEntry {
   background: none;
   cursor: pointer;
   outline: none;

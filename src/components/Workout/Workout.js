@@ -166,7 +166,9 @@ export class Workout extends React.Component {
                         exercise.weight
                       )}
                     </td>
-                    {modifier === "normal" ? (
+                    {(modifier === "normal" ||
+                      modifier === "isCollectingData") &&
+                    exercise.weight ? (
                       <td align="right" className="cell">
                         <input type="checkbox" />
                       </td>

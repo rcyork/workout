@@ -55,6 +55,4 @@
 // sunday - finish local storage persisitence and fix any outstanding issues on app
 
 // TODO :
-//? make originally editable weight values still editable upon repeat edits of logs
-//? fix editing log route to not be the exact same as active-workout so that if a refresh happens whilst editing a log progress doesn't get lost
-//? persist previously logged weight upon launching an edit on that log so that displayed weight is always in sync with logged weight
+//? create mathematical function to calculate weights for each workout
