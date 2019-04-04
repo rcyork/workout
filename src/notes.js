@@ -47,9 +47,4 @@
 // have a piece of state {object} that keeps track of each exercise as well as if it's time to increase weight on the next workout or not, also if the weight should be dropped 10% due to multiple failures on a given exercise
 
 // TODO :
-//? create mathematical function to calculate weights for each workout
-
-//! things i need to know in order to calculate next weight
-//? if it's the first time doing the exercise this week
-//? if the user has failed that lift two times in a row (then deload)
-//? progression rate for that type of exercise
+// figure out how to fix weights increasing everyt time the workout component gets rendered

@@ -13,19 +13,13 @@ export const ActiveWorkout = ({
   decrement,
   isCollectingData,
   logWorkout,
-  isEditingLogEntry,
   editWorkout
 }) => {
   return (
     <div className="activeWorkout">
-      <Button
-        text="cancel"
-        destination={isEditingLogEntry ? "/log" : "/"}
-        type="cancel"
-      />
+      <Button text="cancel" destination="/" type="cancel" onClick={null} />
       <Workout
-        purpose={isEditingLogEntry ? "edit" : null}
-        destination={isEditingLogEntry ? "/log" : "/"}
+        destination="/"
         modifier={modifier}
         workout={workout}
         weights={weights}

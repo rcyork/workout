@@ -6,7 +6,7 @@ import "./Workout.css";
 
 export class Workout extends React.Component {
   state = {
-    thisWorkoutscalculatedWeights: [
+    thisWorkoutsWeights: [
       { name: "deadlift", weight: null },
       { name: "row", weight: null },
       { name: "squat", weight: null },
@@ -19,17 +19,15 @@ export class Workout extends React.Component {
   increment = (currentNumber, exercise) => {
     this.setState(prevState => {
       return {
-        thisWorkoutscalculatedWeights: prevState.thisWorkoutscalculatedWeights.map(
-          item => {
-            if (item.name === exercise) {
-              return { ...item, weight: (currentNumber += 5) };
-            } else {
-              return {
-                ...item
-              };
-            }
+        thisWorkoutsWeights: prevState.thisWorkoutsWeights.map(item => {
+          if (item.name === exercise) {
+            return { ...item, weight: (currentNumber += 5) };
+          } else {
+            return {
+              ...item
+            };
           }
-        )
+        })
       };
     });
   };
@@ -37,40 +35,44 @@ export class Workout extends React.Component {
   decrement = (currentNumber, exercise) => {
     this.setState(prevState => {
       return {
-        thisWorkoutscalculatedWeights: prevState.thisWorkoutscalculatedWeights.map(
-          item => {
-            if (item.name === exercise) {
-              return { ...item, weight: (currentNumber -= 5) };
-            } else {
-              return {
-                ...item
-              };
-            }
+        thisWorkoutsWeights: prevState.thisWorkoutsWeights.map(item => {
+          if (item.name === exercise) {
+            return { ...item, weight: (currentNumber -= 5) };
+          } else {
+            return {
+              ...item
+            };
           }
-        )
+        })
       };
     });
   };
 
+  roundToTheNearestFive = currentNumber => {
+    return Math.ceil(currentNumber / 5) * 5;
+  };
+
   render() {
-    const {
-      workout,
-      weights,
-      modifier,
-      logWorkout,
-      editWorkout,
-      purpose,
-      destination
-    } = this.props;
-    const calculatedWeights = weights.map(item => {
+    const { workout, weights, modifier, logWorkout, destination } = this.props;
+
+    const filteredWeights = weights.filter(item =>
+      workout.exercises.find(entry => entry.name === item.name)
+    );
+
+    const calculatedWeights = filteredWeights.map(item => {
       const itemWeight = item.isTimeToDeload
         ? item.weight * 0.9
         : item.isFirstTimeThisWeek
         ? (item.weight += item.progressionRate)
         : item.weight;
-      return { ...item, weight: itemWeight };
+
+      const finalWeight =
+        workout.exercises.find(entry => entry.name === item.name).reps === 8
+          ? itemWeight * 0.9
+          : itemWeight;
+
+      return { ...item, weight: this.roundToTheNearestFive(finalWeight) };
     });
-    console.log(weights);
 
     const { increment, decrement } = this;
     const formattedWorkout = workout.exercises.map(exercise => {
@@ -78,6 +80,7 @@ export class Workout extends React.Component {
         .weight;
       return { ...exercise, weight };
     });
+
     return (
       <div className={`workout ${modifier}`}>
         <div className={`workout__tableWrap`}>
@@ -147,7 +150,7 @@ export class Workout extends React.Component {
                             data-name={exercise.name}
                             onClick={() =>
                               decrement(
-                                this.state.thisWorkoutscalculatedWeights.find(
+                                this.state.thisWorkoutsWeights.find(
                                   item => item.name === exercise.name
                                 ).weight || 0,
                                 exercise.name
@@ -157,7 +160,7 @@ export class Workout extends React.Component {
                             -
                           </button>
                           <span className="adjustableWeight">
-                            {this.state.thisWorkoutscalculatedWeights.find(
+                            {this.state.thisWorkoutsWeights.find(
                               item => item.name === exercise.name
                             ).weight || 0}
                           </span>
@@ -166,7 +169,7 @@ export class Workout extends React.Component {
                             data-name={exercise.name}
                             onClick={() =>
                               increment(
-                                this.state.thisWorkoutscalculatedWeights.find(
+                                this.state.thisWorkoutsWeights.find(
                                   item => item.name === exercise.name
                                 ).weight || 0,
                                 exercise.name
@@ -197,44 +200,27 @@ export class Workout extends React.Component {
         </div>
         {modifier === "snapshot" ? null : (
           <Button
-            text={purpose === "edit" ? "save" : "complete workout"}
+            text="complete workout"
             destination={destination}
             type="confirm"
             onClick={() => {
-              purpose === "edit"
-                ? editWorkout({
-                    ...workout,
-                    exercises: workout.exercises.map(item => {
-                      return {
-                        ...item,
-                        weight: this.state.thisWorkoutscalculatedWeights.find(
+              logWorkout({
+                id: workout.id,
+                key: new Date(),
+                exercises: workout.exercises.map(item => {
+                  return {
+                    ...item,
+                    weight: formattedWorkout.find(
+                      entry => entry.name === item.name
+                    ).weight
+                      ? formattedWorkout.find(entry => entry.name === item.name)
+                          .weight
+                      : this.state.thisWorkoutsWeights.find(
                           entry => entry.name === item.name
                         ).weight
-                          ? this.state.thisWorkoutscalculatedWeights.find(
-                              entry => entry.name === item.name
-                            ).weight
-                          : item.weight
-                      };
-                    })
-                  })
-                : logWorkout({
-                    id: workout.id,
-                    key: new Date(),
-                    exercises: workout.exercises.map(item => {
-                      return {
-                        ...item,
-                        weight: calculatedWeights.find(
-                          entry => entry.name === item.name
-                        ).weight
-                          ? calculatedWeights.find(
-                              entry => entry.name === item.name
-                            ).weight
-                          : this.state.thisWorkoutscalculatedWeights.find(
-                              entry => entry.name === item.name
-                            ).weight
-                      };
-                    })
-                  });
+                  };
+                })
+              });
             }}
           />
         )}

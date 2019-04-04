@@ -38,7 +38,7 @@ class App extends React.Component {
       },
       {
         name: "squat",
-        weight: 0,
+        weight: 225,
         progressionRate: 15,
         isFirstTimeThisWeek: true,
         numberOfTimesFailedInARow: 0,
@@ -46,17 +46,17 @@ class App extends React.Component {
       },
       {
         name: "bench",
-        weight: 0,
+        weight: 100,
         progressionRate: 10,
         isFirstTimeThisWeek: true,
         numberOfTimesFailedInARow: 0,
-        isTimeToDeload: false
+        isTimeToDeload: true
       },
       {
         name: "ohp",
         weight: 0,
         progressionRate: 5,
-        isFirstTimeThisWeek: true,
+        isFirstTimeThisWeek: false,
         numberOfTimesFailedInARow: 0,
         isTimeToDeload: false
       },
@@ -108,6 +108,8 @@ class App extends React.Component {
   };
 
   logWorkout = workout => {
+    console.log(workout);
+
     this.setState(prevState => {
       return {
         log: [{ ...workout }, ...prevState.log]
@@ -147,7 +149,6 @@ class App extends React.Component {
     const modifier = getIsCollectingData(this.state.workingWeights)
       ? "isCollectingData"
       : "normal";
-    console.log(this.state.workingWeights);
 
     return (
       <div className="app">
