@@ -6,7 +6,7 @@ import "./Workout.css";
 
 export class Workout extends React.Component {
   state = {
-    thisWorkoutsWeights: [
+    thisWorkoutscalculatedWeights: [
       { name: "deadlift", weight: null },
       { name: "row", weight: null },
       { name: "squat", weight: null },
@@ -19,15 +19,17 @@ export class Workout extends React.Component {
   increment = (currentNumber, exercise) => {
     this.setState(prevState => {
       return {
-        thisWorkoutsWeights: prevState.thisWorkoutsWeights.map(item => {
-          if (item.name === exercise) {
-            return { ...item, weight: (currentNumber += 5) };
-          } else {
-            return {
-              ...item
-            };
+        thisWorkoutscalculatedWeights: prevState.thisWorkoutscalculatedWeights.map(
+          item => {
+            if (item.name === exercise) {
+              return { ...item, weight: (currentNumber += 5) };
+            } else {
+              return {
+                ...item
+              };
+            }
           }
-        })
+        )
       };
     });
   };
@@ -35,15 +37,17 @@ export class Workout extends React.Component {
   decrement = (currentNumber, exercise) => {
     this.setState(prevState => {
       return {
-        thisWorkoutsWeights: prevState.thisWorkoutsWeights.map(item => {
-          if (item.name === exercise) {
-            return { ...item, weight: (currentNumber -= 5) };
-          } else {
-            return {
-              ...item
-            };
+        thisWorkoutscalculatedWeights: prevState.thisWorkoutscalculatedWeights.map(
+          item => {
+            if (item.name === exercise) {
+              return { ...item, weight: (currentNumber -= 5) };
+            } else {
+              return {
+                ...item
+              };
+            }
           }
-        })
+        )
       };
     });
   };
@@ -58,10 +62,20 @@ export class Workout extends React.Component {
       purpose,
       destination
     } = this.props;
+    const calculatedWeights = weights.map(item => {
+      const itemWeight = item.isTimeToDeload
+        ? item.weight * 0.9
+        : item.isFirstTimeThisWeek
+        ? (item.weight += item.progressionRate)
+        : item.weight;
+      return { ...item, weight: itemWeight };
+    });
+    console.log(weights);
 
     const { increment, decrement } = this;
     const formattedWorkout = workout.exercises.map(exercise => {
-      const weight = weights.find(item => item.name === exercise.name).weight;
+      const weight = calculatedWeights.find(item => item.name === exercise.name)
+        .weight;
       return { ...exercise, weight };
     });
     return (
@@ -106,11 +120,13 @@ export class Workout extends React.Component {
                     </td>
                     <td
                       className={
-                        (weights.find(item => item.name === exercise.name)
-                          .weight === null &&
+                        (calculatedWeights.find(
+                          item => item.name === exercise.name
+                        ).weight === null &&
                           modifier === "isCollectingData") ||
-                        (weights.find(item => item.name === exercise.name)
-                          .weight === 0 &&
+                        (calculatedWeights.find(
+                          item => item.name === exercise.name
+                        ).weight === 0 &&
                           modifier === "isCollectingData")
                           ? "inputtingWeight"
                           : ""
@@ -131,7 +147,7 @@ export class Workout extends React.Component {
                             data-name={exercise.name}
                             onClick={() =>
                               decrement(
-                                this.state.thisWorkoutsWeights.find(
+                                this.state.thisWorkoutscalculatedWeights.find(
                                   item => item.name === exercise.name
                                 ).weight || 0,
                                 exercise.name
@@ -141,7 +157,7 @@ export class Workout extends React.Component {
                             -
                           </button>
                           <span className="adjustableWeight">
-                            {this.state.thisWorkoutsWeights.find(
+                            {this.state.thisWorkoutscalculatedWeights.find(
                               item => item.name === exercise.name
                             ).weight || 0}
                           </span>
@@ -150,7 +166,7 @@ export class Workout extends React.Component {
                             data-name={exercise.name}
                             onClick={() =>
                               increment(
-                                this.state.thisWorkoutsWeights.find(
+                                this.state.thisWorkoutscalculatedWeights.find(
                                   item => item.name === exercise.name
                                 ).weight || 0,
                                 exercise.name
@@ -191,10 +207,10 @@ export class Workout extends React.Component {
                     exercises: workout.exercises.map(item => {
                       return {
                         ...item,
-                        weight: this.state.thisWorkoutsWeights.find(
+                        weight: this.state.thisWorkoutscalculatedWeights.find(
                           entry => entry.name === item.name
                         ).weight
-                          ? this.state.thisWorkoutsWeights.find(
+                          ? this.state.thisWorkoutscalculatedWeights.find(
                               entry => entry.name === item.name
                             ).weight
                           : item.weight
@@ -207,11 +223,13 @@ export class Workout extends React.Component {
                     exercises: workout.exercises.map(item => {
                       return {
                         ...item,
-                        weight: weights.find(entry => entry.name === item.name)
-                          .weight
-                          ? weights.find(entry => entry.name === item.name)
-                              .weight
-                          : this.state.thisWorkoutsWeights.find(
+                        weight: calculatedWeights.find(
+                          entry => entry.name === item.name
+                        ).weight
+                          ? calculatedWeights.find(
+                              entry => entry.name === item.name
+                            ).weight
+                          : this.state.thisWorkoutscalculatedWeights.find(
                               entry => entry.name === item.name
                             ).weight
                       };

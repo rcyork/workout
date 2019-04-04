@@ -20,12 +20,54 @@ class App extends React.Component {
     workoutToEdit: null,
     firstVisit: false,
     workingWeights: [
-      { name: "deadlift", weight: null },
-      { name: "row", weight: null },
-      { name: "squat", weight: 225 },
-      { name: "bench", weight: 135 },
-      { name: "ohp", weight: null },
-      { name: "chinup", weight: 0 }
+      {
+        name: "deadlift",
+        weight: 0,
+        progressionRate: 15,
+        isFirstTimeThisWeek: true,
+        numberOfTimesFailedInARow: 0,
+        isTimeToDeload: false
+      },
+      {
+        name: "row",
+        weight: 0,
+        progressionRate: 10,
+        isFirstTimeThisWeek: true,
+        numberOfTimesFailedInARow: 0,
+        isTimeToDeload: false
+      },
+      {
+        name: "squat",
+        weight: 0,
+        progressionRate: 15,
+        isFirstTimeThisWeek: true,
+        numberOfTimesFailedInARow: 0,
+        isTimeToDeload: false
+      },
+      {
+        name: "bench",
+        weight: 0,
+        progressionRate: 10,
+        isFirstTimeThisWeek: true,
+        numberOfTimesFailedInARow: 0,
+        isTimeToDeload: false
+      },
+      {
+        name: "ohp",
+        weight: 0,
+        progressionRate: 5,
+        isFirstTimeThisWeek: true,
+        numberOfTimesFailedInARow: 0,
+        isTimeToDeload: false
+      },
+      {
+        name: "chinup",
+        weight: 0,
+        progressionRate: 0,
+        isFirstTimeThisWeek: true,
+        numberOfTimesFailedInARow: 0,
+        isTimeToDeload: false
+      }
     ],
     log: [
       {
@@ -92,7 +134,7 @@ class App extends React.Component {
   deleteLogEntry = key => {
     this.setState(prevState => {
       return {
-        log: prevState.log.filter(log => log.key !== key)
+        log: prevState.log.filter(item => item.key !== key)
       };
     });
   };
@@ -105,6 +147,7 @@ class App extends React.Component {
     const modifier = getIsCollectingData(this.state.workingWeights)
       ? "isCollectingData"
       : "normal";
+    console.log(this.state.workingWeights);
 
     return (
       <div className="app">
@@ -129,13 +172,7 @@ class App extends React.Component {
                 render={() => {
                   return (
                     <ActiveWorkout
-                      workout={
-                        this.state.workoutToEdit
-                          ? this.state.log.find(
-                              item => item.key === this.state.workoutToEdit
-                            )
-                          : this.state.nextWorkout
-                      }
+                      workout={this.state.nextWorkout}
                       modifier={modifier}
                       weights={this.state.workingWeights}
                       logWorkout={this.logWorkout}

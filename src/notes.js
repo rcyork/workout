@@ -46,13 +46,10 @@
 //! how to calculate weight
 // have a piece of state {object} that keeps track of each exercise as well as if it's time to increase weight on the next workout or not, also if the weight should be dropped 10% due to multiple failures on a given exercise
 
-// mon - workout cards for each type, and wire up redirect buttons to and from workout screen
-// tues - get initial log working
-// weds - plug in dummy data and make sure all static screens work as inteded
-// thurs - start work on math behind program and test to make sure it works
-// friday - finish math for all progression and deload options
-// satuday - start persistence work with local storage
-// sunday - finish local storage persisitence and fix any outstanding issues on app
-
 // TODO :
 //? create mathematical function to calculate weights for each workout
+
+//! things i need to know in order to calculate next weight
+//? if it's the first time doing the exercise this week
+//? if the user has failed that lift two times in a row (then deload)
+//? progression rate for that type of exercise

@@ -28,14 +28,7 @@ export const ActiveWorkout = ({
         destination={isEditingLogEntry ? "/log" : "/"}
         modifier={modifier}
         workout={workout}
-        weights={
-          isEditingLogEntry
-            ? workout.exercises.map(item => ({
-                name: item.name,
-                weight: item.weight
-              }))
-            : weights
-        }
+        weights={weights}
         increment={increment}
         decrement={decrement}
         isCollectingData={isCollectingData}
