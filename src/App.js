@@ -18,7 +18,7 @@ class App extends React.Component {
   state = {
     nextWorkout: WORKOUTS.find(workout => workout.id === "wad1"),
     workoutToEdit: null,
-    firstVisit: false,
+    firstVisit: true,
     workingWeights: [
       {
         name: "deadlift",
@@ -30,7 +30,7 @@ class App extends React.Component {
       },
       {
         name: "row",
-        weight: 0,
+        weight: null,
         progressionRate: 10,
         isFirstTimeThisWeek: true,
         numberOfTimesFailedInARow: 0,
@@ -54,7 +54,7 @@ class App extends React.Component {
       },
       {
         name: "ohp",
-        weight: 0,
+        weight: null,
         progressionRate: 5,
         isFirstTimeThisWeek: false,
         numberOfTimesFailedInARow: 0,
@@ -62,9 +62,9 @@ class App extends React.Component {
       },
       {
         name: "chinup",
-        weight: 0,
-        progressionRate: 0,
-        isFirstTimeThisWeek: true,
+        weight: null,
+        progressionRate: 5,
+        isFirstTimeThisWeek: false,
         numberOfTimesFailedInARow: 0,
         isTimeToDeload: false
       }
@@ -108,27 +108,9 @@ class App extends React.Component {
   };
 
   logWorkout = workout => {
-    console.log(workout);
-
     this.setState(prevState => {
       return {
         log: [{ ...workout }, ...prevState.log]
-      };
-    });
-  };
-
-  editWorkout = workout => {
-    this.setState(prevState => {
-      return {
-        workoutToEdit: null,
-        log: prevState.log.map(entry => {
-          if (entry.key === workout.key) {
-            return { ...workout };
-          }
-          return {
-            ...entry
-          };
-        })
       };
     });
   };

@@ -63,7 +63,7 @@ export class Workout extends React.Component {
       const itemWeight = item.isTimeToDeload
         ? item.weight * 0.9
         : item.isFirstTimeThisWeek
-        ? (item.weight += item.progressionRate)
+        ? item.weight + item.progressionRate
         : item.weight;
 
       const finalWeight =
@@ -179,7 +179,7 @@ export class Workout extends React.Component {
                             +
                           </button>
                         </>
-                      ) : exercise.weight === null ? (
+                      ) : exercise.weight === null || exercise.weight === 0 ? (
                         "?"
                       ) : (
                         exercise.weight

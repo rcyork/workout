@@ -17,7 +17,7 @@ export const ActiveWorkout = ({
 }) => {
   return (
     <div className="activeWorkout">
-      <Button text="cancel" destination="/" type="cancel" onClick={null} />
+      <Button text="cancel" destination="/" type="cancel" />
       <Workout
         destination="/"
         modifier={modifier}
@@ -28,6 +28,7 @@ export const ActiveWorkout = ({
         isCollectingData={isCollectingData}
         logWorkout={logWorkout}
         editWorkout={editWorkout}
+        needsCalculatedWeights={true}
       />
     </div>
   );

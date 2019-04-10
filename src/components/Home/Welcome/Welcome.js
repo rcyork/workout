@@ -18,7 +18,7 @@ export const Welcome = ({ weights, firstVisit, setFirstVisitToFalse }) => {
         text={firstVisit ? "start first workout" : "start next workout"}
         destination="/active-workout"
         type="confirm"
-        onClick={firstVisit ? setFirstVisitToFalse : null}
+        onClick={firstVisit ? setFirstVisitToFalse : undefined}
       />
       {!firstVisit ? (
         <Button text="view log" destination="/log" type="nav" />
