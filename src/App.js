@@ -18,7 +18,7 @@ class App extends React.Component {
   state = {
     nextWorkout: WORKOUTS.find(workout => workout.id === "wad1"),
     workoutToEdit: null,
-    firstVisit: true,
+    firstVisit: false,
     workingWeights: [
       {
         name: "deadlift",
@@ -107,9 +107,18 @@ class App extends React.Component {
     ]
   };
 
+  getNextWorkout = currentWorkout => {
+    const index = WORKOUTS.findIndex(workout => workout.id === currentWorkout);
+    if (index < WORKOUTS.length - 1) {
+      return WORKOUTS[index + 1];
+    }
+    return WORKOUTS[0];
+  };
+
   logWorkout = workout => {
     this.setState(prevState => {
       return {
+        nextWorkout: this.getNextWorkout(workout.id),
         log: [{ ...workout }, ...prevState.log]
       };
     });

@@ -7,8 +7,13 @@ import { AboutCard } from "./AboutCard/AboutCard";
 
 import "./Welcome.css";
 
-export const Welcome = ({ weights, firstVisit, setFirstVisitToFalse }) => {
-  const workout = WORKOUTS.find(workout => workout.id === "wad1");
+export const Welcome = ({
+  weights,
+  firstVisit,
+  setFirstVisitToFalse,
+  nextWorkout
+}) => {
+  const workout = nextWorkout;
 
   return (
     <div className={`${firstVisit ? "firstVisit" : ""} welcome`}>
