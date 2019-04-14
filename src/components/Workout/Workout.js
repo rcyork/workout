@@ -4,6 +4,8 @@ import { Button } from "../Button/Button";
 
 import "./Workout.css";
 
+import { roundToNearestFive } from "../../roundToNearestFive";
+
 export class Workout extends React.Component {
   state = {
     thisWorkoutsWeights: [
@@ -48,10 +50,6 @@ export class Workout extends React.Component {
     });
   };
 
-  roundToTheNearestFive = currentNumber => {
-    return Math.ceil(currentNumber / 5) * 5;
-  };
-
   render() {
     const { workout, weights, modifier, logWorkout, destination } = this.props;
 
@@ -71,7 +69,7 @@ export class Workout extends React.Component {
           ? itemWeight * 0.9
           : itemWeight;
 
-      return { ...item, weight: this.roundToTheNearestFive(finalWeight) };
+      return { ...item, weight: roundToNearestFive(finalWeight) };
     });
 
     const { increment, decrement } = this;

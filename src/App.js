@@ -7,6 +7,8 @@ import { Welcome } from "./components/Home/Welcome/Welcome";
 import { ActiveWorkout } from "./components/ActiveWorkout/ActiveWorkout";
 import { Log } from "./components/Log/Log";
 
+import { roundToNearestFive } from "./roundToNearestFive";
+
 import { WORKOUTS } from "./workouts";
 import "./App.css";
 
@@ -40,7 +42,7 @@ class App extends React.Component {
         name: "squat",
         weight: 225,
         progressionRate: 15,
-        isFirstTimeThisWeek: true,
+        isFirstTimeThisWeek: false,
         numberOfTimesFailedInARow: 0,
         isTimeToDeload: false
       },
@@ -116,8 +118,31 @@ class App extends React.Component {
   };
 
   logWorkout = workout => {
+    // calculates 8 rep weights back to 4 rep weights to make calculating easier when generating next workout
+    const fixedWeights = workout.exercises.map(exercise => {
+      if (exercise.reps === 8) {
+        return {
+          ...exercise,
+          weight: roundToNearestFive(exercise.weight / 0.9)
+        };
+      }
+      return { ...exercise };
+    });
+
     this.setState(prevState => {
       return {
+        workingWeights: prevState.workingWeights.map(exercise => {
+          const fixedWeight = fixedWeights.find(
+            item => item.name === exercise.name
+          );
+          if (!fixedWeight) {
+            return exercise;
+          }
+          return {
+            ...exercise,
+            weight: fixedWeight.weight
+          };
+        }),
         nextWorkout: this.getNextWorkout(workout.id),
         log: [{ ...workout }, ...prevState.log]
       };

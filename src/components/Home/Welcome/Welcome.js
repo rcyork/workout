@@ -1,6 +1,5 @@
 import React from "react";
 
-import { WORKOUTS } from "../../../workouts";
 import { Snapshot } from "../../Snapshot/Snapshot";
 import { Button } from "../../Button/Button";
 import { AboutCard } from "./AboutCard/AboutCard";
