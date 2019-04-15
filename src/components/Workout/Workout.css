@@ -2,17 +2,20 @@
   border-radius: 5px;
 }
 
-.inputtingWeight {
+.inputtingWeight,
+.inputtingReps {
   display: grid;
   grid-template-columns: repeat(3, max-content);
   align-items: center;
   justify-items: center;
   justify-content: space-between;
+  text-align: center;
 }
 
 .adjustableWeight {
-  width: 2rem; /* reduce jank from resizing of element as the number increases from single -> double -> triple digits */
+  min-width: 1rem; /* reduce jank from resizing of element as the number increases from single -> double -> triple digits */
   text-align: center;
+  font-size: 0.75rem;
 }
 
 .workout__tableWrap {
@@ -32,10 +35,10 @@
 
 .increment,
 .decrement {
-  width: 3rem;
-  height: 3rem;
+  width: 2rem;
+  height: 2rem;
   cursor: pointer;
-  font-size: 2rem;
+  font-size: 1rem;
   outline: none;
   background: var(--grey);
   border-radius: 5px;
@@ -43,9 +46,17 @@
 }
 
 .weight {
-  font-size: 1.5rem;
+  font-size: 0.75rem;
 }
 
 .cell {
   padding-bottom: 1rem;
+  font-size: 0.75rem;
+}
+
+.completed {
+  color: green;
+}
+.incomplete {
+  color: red;
 }

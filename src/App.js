@@ -18,7 +18,7 @@ function getIsCollectingData(workingWeights) {
 
 class App extends React.Component {
   state = {
-    nextWorkout: WORKOUTS.find(workout => workout.id === "wad1"),
+    nextWorkout: WORKOUTS.find(workout => workout.id === "wad3"),
     workoutToEdit: null,
     firstVisit: false,
     workingWeights: [
@@ -26,49 +26,55 @@ class App extends React.Component {
         name: "deadlift",
         weight: 0,
         progressionRate: 15,
-        isFirstTimeThisWeek: true,
+        isTimeToProgress: false,
         numberOfTimesFailedInARow: 0,
-        isTimeToDeload: false
+        isTimeToDeload: false,
+        isTimeToDoubleProgress: false
       },
       {
         name: "row",
         weight: null,
         progressionRate: 10,
-        isFirstTimeThisWeek: true,
+        isTimeToProgress: false,
         numberOfTimesFailedInARow: 0,
-        isTimeToDeload: false
+        isTimeToDeload: false,
+        isTimeToDoubleProgress: false
       },
       {
         name: "squat",
         weight: 225,
         progressionRate: 15,
-        isFirstTimeThisWeek: false,
+        isTimeToProgress: false,
         numberOfTimesFailedInARow: 0,
-        isTimeToDeload: false
+        isTimeToDeload: false,
+        isTimeToDoubleProgress: false
       },
       {
         name: "bench",
         weight: 100,
         progressionRate: 10,
-        isFirstTimeThisWeek: true,
+        isTimeToProgress: false,
         numberOfTimesFailedInARow: 0,
-        isTimeToDeload: true
+        isTimeToDeload: false,
+        isTimeToDoubleProgress: false
       },
       {
         name: "ohp",
         weight: null,
         progressionRate: 5,
-        isFirstTimeThisWeek: false,
+        isTimeToProgress: false,
         numberOfTimesFailedInARow: 0,
-        isTimeToDeload: false
+        isTimeToDeload: false,
+        isTimeToDoubleProgress: false
       },
       {
         name: "chinup",
         weight: null,
         progressionRate: 5,
-        isFirstTimeThisWeek: false,
+        isTimeToProgress: false,
         numberOfTimesFailedInARow: 0,
-        isTimeToDeload: false
+        isTimeToDeload: false,
+        isTimeToDoubleProgress: false
       }
     ],
     log: [
@@ -118,6 +124,8 @@ class App extends React.Component {
   };
 
   logWorkout = workout => {
+    console.log(workout);
+
     // calculates 8 rep weights back to 4 rep weights to make calculating easier when generating next workout
     const fixedWeights = workout.exercises.map(exercise => {
       if (exercise.reps === 8) {
@@ -135,12 +143,31 @@ class App extends React.Component {
           const fixedWeight = fixedWeights.find(
             item => item.name === exercise.name
           );
-          if (!fixedWeight) {
-            return exercise;
-          }
+
+          const foundItem = workout.exercises.find(
+            item => item.name === exercise.name
+          );
+
           return {
             ...exercise,
-            weight: fixedWeight.weight
+            weight: fixedWeight ? fixedWeight.weight : exercise.weight,
+            numberOfTimesFailedInARow: !foundItem
+              ? exercise.numberOfTimesFailedInARow
+              : foundItem.completed
+              ? false
+              : exercise.numberOfTimesFailedInARow + 1,
+            isTimeToDeload: exercise.numberOfTimesFailedInARow >= 2,
+            isTimeToProgress: !foundItem
+              ? exercise.isTimeToProgress
+              : !foundItem.completed
+              ? false
+              : workout.id[3] === "3",
+
+            isTimeToDoubleProgress: exercise.isTimeToDoubleProgress
+              ? false
+              : foundItem
+              ? foundItem.amrap >= 8
+              : false
           };
         }),
         nextWorkout: this.getNextWorkout(workout.id),

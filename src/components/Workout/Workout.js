@@ -9,21 +9,21 @@ import { roundToNearestFive } from "../../roundToNearestFive";
 export class Workout extends React.Component {
   state = {
     thisWorkoutsWeights: [
-      { name: "deadlift", weight: null },
-      { name: "row", weight: null },
-      { name: "squat", weight: null },
-      { name: "bench", weight: null },
-      { name: "ohp", weight: null },
-      { name: "chinup", weight: null }
+      { name: "deadlift", weight: null, completed: true, amrapNumber: 0 },
+      { name: "row", weight: null, completed: true, amrapNumber: 0 },
+      { name: "squat", weight: null, completed: true, amrapNumber: 0 },
+      { name: "bench", weight: null, completed: true, amrapNumber: 0 },
+      { name: "ohp", weight: null, completed: true, amrapNumber: 0 },
+      { name: "chinup", weight: null, completed: true, amrapNumber: 0 }
     ]
   };
 
-  increment = (currentNumber, exercise) => {
+  increment = (exercise, factor, key) => {
     this.setState(prevState => {
       return {
         thisWorkoutsWeights: prevState.thisWorkoutsWeights.map(item => {
           if (item.name === exercise) {
-            return { ...item, weight: (currentNumber += 5) };
+            return { ...item, [key]: item[key] + factor };
           } else {
             return {
               ...item
@@ -34,24 +34,44 @@ export class Workout extends React.Component {
     });
   };
 
-  decrement = (currentNumber, exercise) => {
+  decrement = (exercise, factor, key) => {
     this.setState(prevState => {
       return {
         thisWorkoutsWeights: prevState.thisWorkoutsWeights.map(item => {
           if (item.name === exercise) {
-            return { ...item, weight: (currentNumber -= 5) };
+            return { ...item, [key]: item[key] - factor };
           } else {
             return {
               ...item
             };
           }
+        })
+      };
+    });
+  };
+
+  updateExerciseStatus = exercise => {
+    this.setState(prevState => {
+      return {
+        thisWorkoutsWeights: prevState.thisWorkoutsWeights.map(item => {
+          if (item.name !== exercise) {
+            return item;
+          }
+          return { ...item, completed: !item.completed };
         })
       };
     });
   };
 
   render() {
-    const { workout, weights, modifier, logWorkout, destination } = this.props;
+    const {
+      workout,
+      weights,
+      modifier,
+      logWorkout,
+      destination,
+      isLogCard
+    } = this.props;
 
     const filteredWeights = weights.filter(item =>
       workout.exercises.find(entry => entry.name === item.name)
@@ -60,7 +80,9 @@ export class Workout extends React.Component {
     const calculatedWeights = filteredWeights.map(item => {
       const itemWeight = item.isTimeToDeload
         ? item.weight * 0.9
-        : item.isFirstTimeThisWeek
+        : item.isTimeToDoubleProgress
+        ? item.weight + item.progressionRate * 2
+        : item.isTimeToProgress
         ? item.weight + item.progressionRate
         : item.weight;
 
@@ -74,8 +96,9 @@ export class Workout extends React.Component {
 
     const { increment, decrement } = this;
     const formattedWorkout = workout.exercises.map(exercise => {
-      const weight = calculatedWeights.find(item => item.name === exercise.name)
-        .weight;
+      const weight = isLogCard
+        ? weights.find(item => item.name === exercise.name).weight
+        : calculatedWeights.find(item => item.name === exercise.name).weight;
       return { ...exercise, weight };
     });
 
@@ -91,6 +114,11 @@ export class Workout extends React.Component {
                 <th scope="col" align="center">
                   sets x reps
                 </th>
+                {(modifier === "normal" || modifier === "isCollectingData") &&
+                formattedWorkout.some(item => item.amrap) ? (
+                  <th align="center">AMRAP#</th>
+                ) : null}
+
                 <th
                   scope="col"
                   align={
@@ -101,7 +129,7 @@ export class Workout extends React.Component {
                 >
                   weight
                 </th>
-                {modifier === "normal" ? (
+                {modifier === "normal" || modifier === "isCollectingData" ? (
                   <th align="right">
                     <span role="img" aria-label="checkmark">
                       ✔️
@@ -117,10 +145,53 @@ export class Workout extends React.Component {
                       {exercise.name}
                     </td>
                     <td align="center" className="cell">
-                      {exercise.sets} x {exercise.reps}
+                      {exercise.amrap
+                        ? `${exercise.sets}x${exercise.reps} + 1xAMRAP`
+                        : `${exercise.sets}x${exercise.reps}`}
                     </td>
+                    {(modifier === "normal" ||
+                      modifier === "isCollectingData") &&
+                    exercise.amrap ? (
+                      <td className="inputtingReps">
+                        <>
+                          <button
+                            className="decrement"
+                            data-name={exercise.name}
+                            onClick={() =>
+                              decrement(exercise.name, 1, "amrapNumber")
+                            }
+                          >
+                            -
+                          </button>
+                          <span className="adjustableWeight">
+                            {this.state.thisWorkoutsWeights.find(
+                              item => item.name === exercise.name
+                            ).amrapNumber || 0}
+                          </span>
+                          <button
+                            className="increment"
+                            data-name={exercise.name}
+                            onClick={() =>
+                              increment(exercise.name, 1, "amrapNumber")
+                            }
+                          >
+                            +
+                          </button>
+                        </>
+                      </td>
+                    ) : (modifier === "normal" ||
+                        modifier === "isCollectingData") &&
+                      !exercise.amrap ? (
+                      <td />
+                    ) : null}
                     <td
-                      className={
+                      className={`weight ${
+                        isLogCard && exercise.completed
+                          ? "completed"
+                          : isLogCard && exercise.completed === false
+                          ? "incomplete"
+                          : ""
+                      } ${
                         (calculatedWeights.find(
                           item => item.name === exercise.name
                         ).weight === null &&
@@ -131,7 +202,7 @@ export class Workout extends React.Component {
                           modifier === "isCollectingData")
                           ? "inputtingWeight"
                           : ""
-                      }
+                      }`}
                       align={
                         modifier === "snapshot" || "isCalculatingData"
                           ? "right"
@@ -147,12 +218,7 @@ export class Workout extends React.Component {
                             className="decrement"
                             data-name={exercise.name}
                             onClick={() =>
-                              decrement(
-                                this.state.thisWorkoutsWeights.find(
-                                  item => item.name === exercise.name
-                                ).weight || 0,
-                                exercise.name
-                              )
+                              decrement(exercise.name, 5, "weight")
                             }
                           >
                             -
@@ -166,12 +232,7 @@ export class Workout extends React.Component {
                             className="increment"
                             data-name={exercise.name}
                             onClick={() =>
-                              increment(
-                                this.state.thisWorkoutsWeights.find(
-                                  item => item.name === exercise.name
-                                ).weight || 0,
-                                exercise.name
-                              )
+                              increment(exercise.name, 5, "weight")
                             }
                           >
                             +
@@ -187,9 +248,21 @@ export class Workout extends React.Component {
                       modifier === "isCollectingData") &&
                     exercise.weight ? (
                       <td align="right" className="cell">
-                        <input type="checkbox" />
+                        <input
+                          type="checkbox"
+                          checked={
+                            this.state.thisWorkoutsWeights.find(
+                              item => item.name === exercise.name
+                            ).completed
+                          }
+                          onChange={() =>
+                            this.updateExerciseStatus(exercise.name)
+                          }
+                        />
                       </td>
-                    ) : null}
+                    ) : (
+                      <td />
+                    )}
                   </tr>
                 ))}
               </>
@@ -215,7 +288,13 @@ export class Workout extends React.Component {
                           .weight
                       : this.state.thisWorkoutsWeights.find(
                           entry => entry.name === item.name
-                        ).weight
+                        ).weight,
+                    completed: this.state.thisWorkoutsWeights.find(
+                      entry => entry.name === item.name
+                    ).completed,
+                    amrap: this.state.thisWorkoutsWeights.find(
+                      entry => entry.name === item.name
+                    ).amrapNumber
                   };
                 })
               });

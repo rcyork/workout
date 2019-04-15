@@ -8,6 +8,15 @@ import { Workout } from "../Workout/Workout";
 
 import "./Snapshot.css";
 
+const workoutFullName = [
+  { name: "wad1", fullText: "Week A: Day 1" },
+  { name: "wad2", fullText: "Week A: Day 2" },
+  { name: "wad3", fullText: "Week A: Day 3" },
+  { name: "wbd1", fullText: "Week B: Day 1" },
+  { name: "wbd2", fullText: "Week B: Day 2" },
+  { name: "wbd3", fullText: "Week B: Day 3" }
+];
+
 export const Snapshot = ({
   workout,
   weights,
@@ -16,10 +25,15 @@ export const Snapshot = ({
   deleteLogEntry,
   isLogEmpty
 }) => {
+  const workoutName = workoutFullName.find(item => item.name === workout.id)
+    .fullText;
   return (
     <div className="snapshot">
-      <h2 className={`snapshot__title ${isLogCard ? "isLogCard" : ""} `}>
-        {title ? title : moment(workout.key).format("LL")}
+      <div className={`snapshot__titleWrap ${isLogCard ? "isLogCard" : ""} `}>
+        <h2 className="snapshot__title">
+          {title ? title : moment(workout.key).format("LL")}
+          <span className="snapshot__title__workoutId">{workoutName}</span>
+        </h2>
         {isLogCard ? (
           <Link
             to={isLogEmpty ? "/" : "/log"}
@@ -29,8 +43,9 @@ export const Snapshot = ({
             <span className="fas fa-trash" />
           </Link>
         ) : null}
-      </h2>
+      </div>
       <Workout
+        isLogCard={isLogCard}
         workout={workout}
         modifier="snapshot"
         weights={weights}
