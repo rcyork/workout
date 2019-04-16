@@ -195,11 +195,13 @@ export class Workout extends React.Component {
                         (calculatedWeights.find(
                           item => item.name === exercise.name
                         ).weight === null &&
-                          modifier === "isCollectingData") ||
+                          (modifier === "isCollectingData" ||
+                            modifier === "normal")) ||
                         (calculatedWeights.find(
                           item => item.name === exercise.name
                         ).weight === 0 &&
-                          modifier === "isCollectingData")
+                          (modifier === "isCollectingData" ||
+                            modifier === "normal"))
                           ? "inputtingWeight"
                           : ""
                       }`}
@@ -210,9 +212,11 @@ export class Workout extends React.Component {
                       }
                     >
                       {(exercise.weight === null &&
-                        modifier === "isCollectingData") ||
+                        (modifier === "isCollectingData" ||
+                          modifier === "normal")) ||
                       (exercise.weight === 0 &&
-                        modifier === "isCollectingData") ? (
+                        (modifier === "isCollectingData" ||
+                          modifier === "normal")) ? (
                         <>
                           <button
                             className="decrement"
@@ -247,7 +251,7 @@ export class Workout extends React.Component {
                     {(modifier === "normal" ||
                       modifier === "isCollectingData") &&
                     exercise.weight ? (
-                      <td align="right" className="cell">
+                      <td align="right" className="cell checkboxWrap">
                         <input
                           type="checkbox"
                           checked={

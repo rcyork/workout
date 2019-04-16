@@ -17,9 +17,8 @@ function getIsCollectingData(workingWeights) {
 }
 
 class App extends React.Component {
-  state = {
-    nextWorkout: WORKOUTS.find(workout => workout.id === "wad3"),
-    workoutToEdit: null,
+  state = JSON.parse(localStorage.getItem("state")) || {
+    nextWorkout: WORKOUTS.find(workout => workout.id === "wad1"),
     firstVisit: false,
     workingWeights: [
       {
@@ -124,8 +123,6 @@ class App extends React.Component {
   };
 
   logWorkout = workout => {
-    console.log(workout);
-
     // calculates 8 rep weights back to 4 rep weights to make calculating easier when generating next workout
     const fixedWeights = workout.exercises.map(exercise => {
       if (exercise.reps === 8) {
@@ -137,55 +134,71 @@ class App extends React.Component {
       return { ...exercise };
     });
 
-    this.setState(prevState => {
-      return {
-        workingWeights: prevState.workingWeights.map(exercise => {
-          const fixedWeight = fixedWeights.find(
-            item => item.name === exercise.name
-          );
+    this.setState(
+      prevState => {
+        return {
+          workingWeights: prevState.workingWeights.map(exercise => {
+            const fixedWeight = fixedWeights.find(
+              item => item.name === exercise.name
+            );
 
-          const foundItem = workout.exercises.find(
-            item => item.name === exercise.name
-          );
+            const foundItem = workout.exercises.find(
+              item => item.name === exercise.name
+            );
 
-          return {
-            ...exercise,
-            weight: fixedWeight ? fixedWeight.weight : exercise.weight,
-            numberOfTimesFailedInARow: !foundItem
-              ? exercise.numberOfTimesFailedInARow
-              : foundItem.completed
-              ? false
-              : exercise.numberOfTimesFailedInARow + 1,
-            isTimeToDeload: exercise.numberOfTimesFailedInARow >= 2,
-            isTimeToProgress: !foundItem
-              ? exercise.isTimeToProgress
-              : !foundItem.completed
-              ? false
-              : workout.id[3] === "3",
+            return {
+              ...exercise,
+              weight: fixedWeight ? fixedWeight.weight : exercise.weight,
+              numberOfTimesFailedInARow: !foundItem
+                ? exercise.numberOfTimesFailedInARow
+                : foundItem.completed
+                ? 0
+                : exercise.numberOfTimesFailedInARow + 1,
+              isTimeToDeload:
+                foundItem &&
+                (foundItem.completed === false &&
+                  exercise.numberOfTimesFailedInARow >= 1)
+                  ? true
+                  : false,
+              isTimeToProgress: !foundItem
+                ? exercise.isTimeToProgress
+                : !foundItem.completed
+                ? false
+                : foundItem.name === "chinup" &&
+                  (foundItem.weight === 0 || foundItem.weight === null)
+                ? false
+                : workout.id[3] === "3",
 
-            isTimeToDoubleProgress: exercise.isTimeToDoubleProgress
-              ? false
-              : foundItem
-              ? foundItem.amrap >= 8
-              : false
-          };
-        }),
-        nextWorkout: this.getNextWorkout(workout.id),
-        log: [{ ...workout }, ...prevState.log]
-      };
-    });
+              isTimeToDoubleProgress: exercise.isTimeToDoubleProgress
+                ? false
+                : foundItem
+                ? foundItem.amrap >= 8
+                : false
+            };
+          }),
+          nextWorkout: this.getNextWorkout(workout.id),
+          log: [{ ...workout }, ...prevState.log]
+        };
+      },
+      () => localStorage.setItem("state", JSON.stringify(this.state))
+    );
   };
 
   deleteLogEntry = key => {
-    this.setState(prevState => {
-      return {
-        log: prevState.log.filter(item => item.key !== key)
-      };
-    });
+    this.setState(
+      prevState => {
+        return {
+          log: prevState.log.filter(item => item.key !== key)
+        };
+      },
+      () => localStorage.setItem("state", JSON.stringify(this.state))
+    );
   };
 
   setFirstVisitToFalse = () => {
-    this.setState({ firstVisit: false });
+    this.setState({ firstVisit: false }, () =>
+      localStorage.setItem("state", JSON.stringify(this.state))
+    );
   };
 
   render() {
