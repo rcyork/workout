@@ -139,136 +139,133 @@ export class Workout extends React.Component {
                 ) : null}
               </tr>
               <>
-                {formattedWorkout.map(exercise => (
-                  <tr key={exercise.name} className="row">
-                    <td align="left" className="cell">
-                      {exercise.name}
-                    </td>
-                    <td align="center" className="cell">
-                      {exercise.amrap
-                        ? `${exercise.sets}x${exercise.reps} + 1xAMRAP`
-                        : `${exercise.sets}x${exercise.reps}`}
-                    </td>
-                    {(modifier === "normal" ||
-                      modifier === "isCollectingData") &&
-                    exercise.amrap ? (
-                      <td className="inputtingReps">
-                        <>
-                          <button
-                            className="decrement"
-                            data-name={exercise.name}
-                            onClick={() =>
-                              decrement(exercise.name, 1, "amrapNumber")
-                            }
-                          >
-                            -
-                          </button>
-                          <span className="adjustableWeight">
-                            {this.state.thisWorkoutsWeights.find(
-                              item => item.name === exercise.name
-                            ).amrapNumber || 0}
-                          </span>
-                          <button
-                            className="increment"
-                            data-name={exercise.name}
-                            onClick={() =>
-                              increment(exercise.name, 1, "amrapNumber")
-                            }
-                          >
-                            +
-                          </button>
-                        </>
+                {formattedWorkout.map(exercise => {
+                  const weightIsNull =
+                    calculatedWeights.find(item => item.name === exercise.name)
+                      .weight === null;
+                  const weightIsZero =
+                    calculatedWeights.find(item => item.name === exercise.name)
+                      .weight === 0;
+                  const modifierIsNormalOrCollectingData =
+                    modifier === "normal" || modifier === "isCollectingData";
+                  return (
+                    <tr key={exercise.name} className="row">
+                      <td align="left" className="cell">
+                        {exercise.name}
                       </td>
-                    ) : (modifier === "normal" ||
-                        modifier === "isCollectingData") &&
-                      !exercise.amrap ? (
-                      <td />
-                    ) : null}
-                    <td
-                      className={`weight ${
-                        isLogCard && exercise.completed
-                          ? "completed"
-                          : isLogCard && exercise.completed === false
-                          ? "incomplete"
-                          : ""
-                      } ${
-                        (calculatedWeights.find(
-                          item => item.name === exercise.name
-                        ).weight === null &&
-                          (modifier === "isCollectingData" ||
-                            modifier === "normal")) ||
-                        (calculatedWeights.find(
-                          item => item.name === exercise.name
-                        ).weight === 0 &&
-                          (modifier === "isCollectingData" ||
-                            modifier === "normal"))
-                          ? "inputtingWeight"
-                          : ""
-                      }`}
-                      align={
-                        modifier === "snapshot" || "isCalculatingData"
-                          ? "right"
-                          : "center"
-                      }
-                    >
-                      {(exercise.weight === null &&
-                        (modifier === "isCollectingData" ||
-                          modifier === "normal")) ||
-                      (exercise.weight === 0 &&
-                        (modifier === "isCollectingData" ||
-                          modifier === "normal")) ? (
-                        <>
-                          <button
-                            className="decrement"
-                            data-name={exercise.name}
-                            onClick={() =>
-                              decrement(exercise.name, 5, "weight")
+                      <td align="center" className="cell">
+                        {exercise.amrap
+                          ? `${exercise.sets}x${exercise.reps} + 1xAMRAP`
+                          : `${exercise.sets}x${exercise.reps}`}
+                      </td>
+                      {modifierIsNormalOrCollectingData && exercise.amrap ? (
+                        <td className="inputtingReps">
+                          <>
+                            <button
+                              className="decrement"
+                              data-name={exercise.name}
+                              onClick={() =>
+                                decrement(exercise.name, 1, "amrapNumber")
+                              }
+                            >
+                              -
+                            </button>
+                            <span className="adjustableWeight">
+                              {this.state.thisWorkoutsWeights.find(
+                                item => item.name === exercise.name
+                              ).amrapNumber || 0}
+                            </span>
+                            <button
+                              className="increment"
+                              data-name={exercise.name}
+                              onClick={() =>
+                                increment(exercise.name, 1, "amrapNumber")
+                              }
+                            >
+                              +
+                            </button>
+                          </>
+                        </td>
+                      ) : modifierIsNormalOrCollectingData &&
+                        !exercise.amrap ? (
+                        <td />
+                      ) : null}
+                      <td
+                        className={`weight ${
+                          isLogCard && exercise.completed
+                            ? "completed"
+                            : isLogCard && exercise.completed === false
+                            ? "incomplete"
+                            : ""
+                        } ${
+                          (weightIsNull && modifierIsNormalOrCollectingData) ||
+                          (weightIsZero && modifierIsNormalOrCollectingData)
+                            ? "inputtingWeight"
+                            : ""
+                        }`}
+                        align={
+                          modifier === "snapshot" ||
+                          modifier === "isCalculatingData"
+                            ? "right"
+                            : "center"
+                        }
+                      >
+                        {(exercise.weight === null &&
+                          modifierIsNormalOrCollectingData) ||
+                        (exercise.weight === 0 &&
+                          modifierIsNormalOrCollectingData) ? (
+                          <>
+                            <button
+                              className="decrement"
+                              data-name={exercise.name}
+                              onClick={() =>
+                                decrement(exercise.name, 5, "weight")
+                              }
+                            >
+                              -
+                            </button>
+                            <span className="adjustableWeight">
+                              {this.state.thisWorkoutsWeights.find(
+                                item => item.name === exercise.name
+                              ).weight || 0}
+                            </span>
+                            <button
+                              className="increment"
+                              data-name={exercise.name}
+                              onClick={() =>
+                                increment(exercise.name, 5, "weight")
+                              }
+                            >
+                              +
+                            </button>
+                          </>
+                        ) : exercise.weight === null ||
+                          exercise.weight === 0 ? (
+                          "?"
+                        ) : (
+                          exercise.weight
+                        )}
+                      </td>
+                      {modifierIsNormalOrCollectingData && exercise.weight ? (
+                        <td align="right" className="cell checkboxWrap">
+                          <input
+                            type="checkbox"
+                            checked={
+                              this.state.thisWorkoutsWeights.find(
+                                item => item.name === exercise.name
+                              ).completed
                             }
-                          >
-                            -
-                          </button>
-                          <span className="adjustableWeight">
-                            {this.state.thisWorkoutsWeights.find(
-                              item => item.name === exercise.name
-                            ).weight || 0}
-                          </span>
-                          <button
-                            className="increment"
-                            data-name={exercise.name}
-                            onClick={() =>
-                              increment(exercise.name, 5, "weight")
+                            onChange={() =>
+                              this.updateExerciseStatus(exercise.name)
                             }
-                          >
-                            +
-                          </button>
-                        </>
-                      ) : exercise.weight === null || exercise.weight === 0 ? (
-                        "?"
+                          />
+                        </td>
                       ) : (
-                        exercise.weight
+                        <td />
                       )}
-                    </td>
-                    {(modifier === "normal" ||
-                      modifier === "isCollectingData") &&
-                    exercise.weight ? (
-                      <td align="right" className="cell checkboxWrap">
-                        <input
-                          type="checkbox"
-                          checked={
-                            this.state.thisWorkoutsWeights.find(
-                              item => item.name === exercise.name
-                            ).completed
-                          }
-                          onChange={() =>
-                            this.updateExerciseStatus(exercise.name)
-                          }
-                        />
-                      </td>
-                    ) : (
-                      <td />
-                    )}
-                  </tr>
-                ))}
+                    </tr>
+                  );
+                })}
               </>
             </tbody>
           </table>
@@ -283,22 +280,26 @@ export class Workout extends React.Component {
                 id: workout.id,
                 key: new Date(),
                 exercises: workout.exercises.map(item => {
+                  const isExistingWeight = formattedWorkout.find(
+                    entry => entry.name === item.name
+                  ).weight;
+                  const userSuppliedWeight = this.state.thisWorkoutsWeights.find(
+                    entry => entry.name === item.name
+                  ).weight;
+                  const isCompleted = this.state.thisWorkoutsWeights.find(
+                    entry => entry.name === item.name
+                  ).completed;
+                  const amrapNumber = this.state.thisWorkoutsWeights.find(
+                    entry => entry.name === item.name
+                  ).amrapNumber;
                   return {
                     ...item,
-                    weight: formattedWorkout.find(
-                      entry => entry.name === item.name
-                    ).weight
+                    weight: isExistingWeight
                       ? formattedWorkout.find(entry => entry.name === item.name)
                           .weight
-                      : this.state.thisWorkoutsWeights.find(
-                          entry => entry.name === item.name
-                        ).weight,
-                    completed: this.state.thisWorkoutsWeights.find(
-                      entry => entry.name === item.name
-                    ).completed,
-                    amrap: this.state.thisWorkoutsWeights.find(
-                      entry => entry.name === item.name
-                    ).amrapNumber
+                      : userSuppliedWeight,
+                    completed: isCompleted,
+                    amrap: amrapNumber
                   };
                 })
               });
