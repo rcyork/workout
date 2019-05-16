@@ -1,31 +1,33 @@
 import React from "react";
-
+import { Link } from "react-router-dom";
 import "./NextWorkout.css";
 
-export default function NextWorkout({ workout }) {
-  console.log(workout.exercises);
-
+export const NextWorkout = ({ workout }) => {
   return (
     <div className="nextWorkout">
       <table className="nextWorkout__table">
-        <tr>
-          <th>exercise</th>
-          <th>sets x reps</th>
-          <th>weight</th>
-        </tr>
-        {workout.exercises.map(exercise => {
-          return (
-            <tr>
-              <th>{exercise.name}</th>
-              <td>
-                {exercise.reps} x {exercise.set}
-              </td>
-              <td>0</td>
-            </tr>
-          );
-        })}
+        <tbody>
+          <tr>
+            <th>exercise</th>
+            <th>sets x reps</th>
+            <th>weight</th>
+          </tr>
+          {workout.exercises.map(exercise => {
+            return (
+              <tr key={exercise.name}>
+                <th>{exercise.name}</th>
+                <td>
+                  {exercise.sets} x {exercise.reps}
+                </td>
+                <td>{exercise.weight === null ? 0 : exercise.weight}</td>
+              </tr>
+            );
+          })}
+        </tbody>
       </table>
-      <button className="nextWorkout__startWorkoutButton">Start Workout</button>
+      <Link className="nextWorkout__startWorkoutButton" to="/workout">
+        Start Workout
+      </Link>
     </div>
   );
-}
+};

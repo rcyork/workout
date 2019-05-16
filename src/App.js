@@ -1,16 +1,91 @@
 import React, { useState } from "react";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
 
 import { INTIAL_WEIGHTS } from "./utils/initialWeights";
 import { WORKOUTS } from "./utils/workouts";
+import { roundToNearestFive } from "./utils/roundToNearestFive";
 
-import Main from "./components/Main/Main";
+import { Main } from "./components/Main/Main";
+import { Log } from "./components/Log/Log";
+import { Workout } from "./components/Workout/Workout";
 
-export default function App() {
+export const App = () => {
   const [weights, setWeight] = useState(INTIAL_WEIGHTS);
-  const [log, setLog] = useState([]);
+  const [log, setLog] = useState([
+    {
+      date: new Date(),
+      id: "wad1",
+      exercises: [
+        {
+          name: "bench",
+          sets: 4,
+          reps: 4,
+          amrap: false,
+          weight: 100,
+          completed: true
+        },
+        {
+          name: "squat",
+          sets: 4,
+          reps: 8,
+          amrap: false,
+          weight: 110,
+          completed: false
+        },
+        {
+          name: "ohp",
+          sets: 4,
+          reps: 8,
+          amrap: false,
+          weight: 120,
+          completed: true
+        },
+        {
+          name: "chinup",
+          sets: 4,
+          reps: 8,
+          amrap: false,
+          weight: 130,
+          completed: false
+        }
+      ]
+    }
+  ]);
   const [workout, setWorkout] = useState(
     WORKOUTS.find(workout => workout.id === "wad1")
   );
 
-  return <Main workout={workout} />;
-}
+  const calculatedWorkout = {
+    ...workout,
+    exercises: workout.exercises.map(exercise => {
+      const initialWeight = INTIAL_WEIGHTS.find(
+        item => item.name === exercise.name
+      ).weight;
+      const calculatedWeight =
+        exercise.reps === 8
+          ? roundToNearestFive(initialWeight * 0.9)
+          : initialWeight;
+      return { ...exercise, weight: calculatedWeight };
+    })
+  };
+
+  return (
+    <BrowserRouter>
+      <Switch>
+        <Route
+          exact
+          path="/"
+          render={() => <Main workout={calculatedWorkout} />}
+        />
+        <Route
+          exact
+          path="/workout"
+          render={() => (
+            <Workout workout={calculatedWorkout} log={log} setLog={setLog} />
+          )}
+        />
+        <Route exact path="/log" render={() => <Log log={log} />} />
+      </Switch>
+    </BrowserRouter>
+  );
+};

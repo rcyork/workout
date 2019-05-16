@@ -2,7 +2,7 @@ import React from "react";
 
 import "./About.css";
 
-export default function About() {
+export const About = () => {
   return (
     <div className="about">
       <h3 className="about__title">About</h3>
@@ -18,4 +18,4 @@ export default function About() {
       </ul>
     </div>
   );
-}
+};
