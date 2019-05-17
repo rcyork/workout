@@ -49,6 +49,44 @@ export const App = () => {
           completed: false
         }
       ]
+    },
+    {
+      date: 1558131740591,
+      id: "wad1",
+      exercises: [
+        {
+          name: "bench",
+          sets: 4,
+          reps: 4,
+          amrap: false,
+          weight: 200,
+          completed: true
+        },
+        {
+          name: "squat",
+          sets: 4,
+          reps: 8,
+          amrap: false,
+          weight: 200,
+          completed: false
+        },
+        {
+          name: "ohp",
+          sets: 4,
+          reps: 8,
+          amrap: false,
+          weight: 200,
+          completed: true
+        },
+        {
+          name: "chinup",
+          sets: 4,
+          reps: 8,
+          amrap: false,
+          weight: 200,
+          completed: false
+        }
+      ]
     }
   ]);
   const [workout, setWorkout] = useState(
@@ -84,7 +122,11 @@ export const App = () => {
             <Workout workout={calculatedWorkout} log={log} setLog={setLog} />
           )}
         />
-        <Route exact path="/log" render={() => <Log log={log} />} />
+        <Route
+          exact
+          path="/log"
+          render={() => <Log log={log} setLog={setLog} />}
+        />
       </Switch>
     </BrowserRouter>
   );
