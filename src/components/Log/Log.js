@@ -21,7 +21,7 @@ export const Log = ({ log, setLog }) => {
       {log.map(logEntry => (
         <div className="logCard" key={logEntry.date}>
           <div className="logCard__banner">
-            <h3>{moment(log.date).format("MMMM Do, YYYY")}</h3>
+            <h3>{moment(logEntry.date).format("MMMM Do, YYYY")}</h3>
             <p>
               {WORKOUT_NAMES.find(workout => workout.name === log.id).fullName}
             </p>

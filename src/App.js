@@ -10,7 +10,7 @@ import { Log } from "./components/Log/Log";
 import { Workout } from "./components/Workout/Workout";
 
 export const App = () => {
-  const [weights, setWeight] = useState(INTIAL_WEIGHTS);
+  const [weights, setWeights] = useState(INTIAL_WEIGHTS);
   const [log, setLog] = useState([
     {
       date: new Date(),
@@ -90,19 +90,30 @@ export const App = () => {
     }
   ]);
   const [workout, setWorkout] = useState(
-    WORKOUTS.find(workout => workout.id === "wad1")
+    WORKOUTS.find(workout => workout.id === "wad3")
   );
 
   const calculatedWorkout = {
     ...workout,
     exercises: workout.exercises.map(exercise => {
-      const initialWeight = INTIAL_WEIGHTS.find(
+      const correspondingWeight = weights.find(
         item => item.name === exercise.name
-      ).weight;
-      const calculatedWeight =
-        exercise.reps === 8
-          ? roundToNearestFive(initialWeight * 0.9)
-          : initialWeight;
+      );
+
+      let calculatedWeight = correspondingWeight.weight;
+      if (correspondingWeight.failuresInARow >= 2) {
+        // if they've failed twice then deload and set failures in a row to 0
+        calculatedWeight = calculatedWeight * 0.9;
+      } else if (correspondingWeight.lastAmrapWasAboveEight) {
+        // if they're latest amrap is 8 or more then double progression
+        calculatedWeight =
+          calculatedWeight + correspondingWeight.progressionRate * 2;
+      } else if (correspondingWeight.haveDoneThisWeek === false) {
+        // do normal progression as long as it's the first time doing the correspondingWeight this week
+        calculatedWeight =
+          calculatedWeight + correspondingWeight.progressionRate;
+      }
+
       return { ...exercise, weight: calculatedWeight };
     })
   };
@@ -119,7 +130,13 @@ export const App = () => {
           exact
           path="/workout"
           render={() => (
-            <Workout workout={calculatedWorkout} log={log} setLog={setLog} />
+            <Workout
+              workout={calculatedWorkout}
+              log={log}
+              setLog={setLog}
+              setWeights={setWeights}
+              setWorkout={setWorkout}
+            />
           )}
         />
         <Route

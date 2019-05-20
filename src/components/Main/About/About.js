@@ -15,6 +15,13 @@ export const About = () => {
         <li className="about__bullet">
           automated progression and deload if necessary
         </li>
+        <li className="about__bullet">
+          test your strength with 'as many reps as possible' or AMRAP for short
+        </li>
+        <li className="about__bullet">
+          if you test very well we will increase your weights to stay in line
+          with your strength gains so you always keep improving
+        </li>
       </ul>
     </div>
   );
