@@ -5,6 +5,8 @@ import "./NextWorkout.css";
 import { roundToNearestFive } from "../../../utils/roundToNearestFive";
 
 export const NextWorkout = ({ workout }) => {
+  console.log(workout);
+
   return (
     <div className="nextWorkout">
       <div className="nextWorkout__banner">

@@ -6,6 +6,8 @@ import { getNextWorkout } from "../../utils/getNextWorkout";
 import "./Workout.css";
 
 export const Workout = ({ workout, setLog, setWeights, setWorkout }) => {
+  console.log(workout);
+
   const [userEnteredWeights, setUserEnteredWeights] = useState([
     { name: "deadlift", weight: 0, amrapNumber: 0, completed: false },
     { name: "row", weight: 0, amrapNumber: 0, completed: false },
@@ -174,25 +176,30 @@ export const Workout = ({ workout, setLog, setWeights, setWorkout }) => {
               const correspondingExercise = userEnteredWeights.find(
                 item => item.name === weightsEntry.name
               );
+              console.log(weightsEntry.name, weightsEntry.failuresInARow);
+
               return {
                 ...weightsEntry,
-                haveDoneThisWeek: endOfWeek // if it's the end of the week reset all exercises to false otherwise just set the exercises done this workout to false
-                  ? false
-                  : isExerciseFromThisWorkout
-                  ? false
-                  : weightsEntry.haveDoneThisWeek,
-                failuresInARow: !isExerciseFromThisWorkout // reset to 0 if they completed the exercise otherwise add 1
-                  ? weightsEntry.failuresInARow
-                  : correspondingExercise.completed
-                  ? 0
-                  : weightsEntry.failuresInARow + 1,
+                failuresInARow:
+                  isExerciseFromThisWorkout === false
+                    ? weightsEntry.failuresInARow // return intial value
+                    : correspondingExercise.completed
+                    ? 0 // reset to 0 if they completed the exercise
+                    : weightsEntry.failuresInARow === 0
+                    ? weightsEntry.failuresInARow + 1 // add one to failures in a row
+                    : 0, // reset to zero because they've failed twice in a row and will now be deloaded
                 weight:
-                  correspondingExercise.weight === 0 // if there is a user entered weight then use that, otherwise just return the weight given in the workout plan
+                  weightsEntry.failuresInARow === 0 &&
+                  correspondingExercise.completed === false // failed for the first time -> try weight again
                     ? weightsEntry.weight
-                    : correspondingExercise.weight,
-                lastAmrapWasAboveEight: !isExerciseFromThisWorkout
-                  ? weightsEntry.lastAmrapWasAboveEight
-                  : correspondingExercise.amrapNumber >= 8
+                    : weightsEntry.failuresInARow >= 1 &&
+                      correspondingExercise.completed === false // failed twice in a row -> deload
+                    ? weightsEntry.weight * 0.9
+                    : correspondingExercise.amrap >= 8 // amrap >= 8 -> double progression
+                    ? weightsEntry.weight + weightsEntry.progressionRate * 2
+                    : endOfWeek // starting new week -> regular progression
+                    ? weightsEntry.weight + weightsEntry.progressionRate
+                    : weightsEntry.weight
               };
             })
           );

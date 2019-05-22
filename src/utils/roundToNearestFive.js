@@ -1,3 +1,3 @@
 export const roundToNearestFive = currentNumber => {
-  return Math.ceil(currentNumber / 5) * 5;
+  return Math.round(currentNumber / 5) * 5;
 };

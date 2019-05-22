@@ -93,28 +93,28 @@ export const App = () => {
     WORKOUTS.find(workout => workout.id === "wad3")
   );
 
-  const calculatedWorkout = {
+  const formattedWorkout = {
     ...workout,
     exercises: workout.exercises.map(exercise => {
       const correspondingWeight = weights.find(
         item => item.name === exercise.name
-      );
+      ).weight;
 
-      let calculatedWeight = correspondingWeight.weight;
-      if (correspondingWeight.failuresInARow >= 2) {
-        // if they've failed twice then deload and set failures in a row to 0
-        calculatedWeight = calculatedWeight * 0.9;
-      } else if (correspondingWeight.lastAmrapWasAboveEight) {
-        // if they're latest amrap is 8 or more then double progression
-        calculatedWeight =
-          calculatedWeight + correspondingWeight.progressionRate * 2;
-      } else if (correspondingWeight.haveDoneThisWeek === false) {
-        // do normal progression as long as it's the first time doing the correspondingWeight this week
-        calculatedWeight =
-          calculatedWeight + correspondingWeight.progressionRate;
-      }
+      // let calculatedWeight = correspondingWeight.weight;
+      // if (correspondingWeight.failuresInARow >= 2) {
+      //   // if they've failed twice then deload and set failures in a row to 0
+      //   calculatedWeight = calculatedWeight * 0.9;
+      // } else if (correspondingWeight.lastAmrapWasAboveEight) {
+      //   // if they're latest amrap is 8 or more then double progression
+      //   calculatedWeight =
+      //     calculatedWeight + correspondingWeight.progressionRate * 2;
+      // } else if (correspondingWeight.haveDoneThisWeek === false) {
+      //   // do normal progression as long as it's the first time doing the correspondingWeight this week
+      //   calculatedWeight =
+      //     calculatedWeight + correspondingWeight.progressionRate;
+      // }
 
-      return { ...exercise, weight: calculatedWeight };
+      return { ...exercise, weight: correspondingWeight };
     })
   };
 
@@ -124,14 +124,14 @@ export const App = () => {
         <Route
           exact
           path="/"
-          render={() => <Main workout={calculatedWorkout} />}
+          render={() => <Main workout={formattedWorkout} />}
         />
         <Route
           exact
           path="/workout"
           render={() => (
             <Workout
-              workout={calculatedWorkout}
+              workout={formattedWorkout}
               log={log}
               setLog={setLog}
               setWeights={setWeights}
