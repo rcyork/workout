@@ -1,0 +1,28 @@
+.viewLog {
+  background: var(--purple__dark);
+}
+
+.startWorkout {
+  background: var(--purple);
+}
+
+.main__navLinks {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  justify-content: space-between;
+  grid-gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.main__navLinks a {
+  text-align: center;
+  text-decoration: none;
+  color: white;
+  border-radius: 5px;
+  font-size: 1.25rem;
+  padding: 0.5rem 0.75rem;
+}
+
+.main__navLinks .viewLog {
+  font-size: 1.1rem;
+}

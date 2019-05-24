@@ -1,0 +1,34 @@
+.nextWorkout__banner {
+  background: var(--blue);
+  color: white;
+  padding: 0.5rem;
+  border-radius: 5px 5px 0 0;
+  text-align: center;
+}
+
+.nextWorkout__banner h2 {
+  font-size: 1.5rem;
+}
+
+.nextWorkout__banner p {
+  font-weight: 200;
+  font-size: 0.9rem;
+  line-height: 1.2rem;
+}
+
+.nextWorkout__table {
+  width: 100%;
+}
+
+.nextWorkout__tableWrap {
+  padding: 0.5rem;
+}
+
+.columnLables th {
+  padding-bottom: 0.5rem;
+  font-weight: bold;
+}
+
+td {
+  padding-bottom: 0.25rem;
+}

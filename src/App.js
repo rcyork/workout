@@ -3,11 +3,12 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 
 import { INTIAL_WEIGHTS } from "./utils/initialWeights";
 import { WORKOUTS } from "./utils/workouts";
-import { roundToNearestFive } from "./utils/roundToNearestFive";
 
 import { Main } from "./components/Main/Main";
 import { Log } from "./components/Log/Log";
 import { Workout } from "./components/Workout/Workout";
+
+import "./App.css";
 
 export const App = () => {
   const [weights, setWeights] = useState(INTIAL_WEIGHTS);
@@ -120,31 +121,33 @@ export const App = () => {
 
   return (
     <BrowserRouter>
-      <Switch>
-        <Route
-          exact
-          path="/"
-          render={() => <Main workout={formattedWorkout} />}
-        />
-        <Route
-          exact
-          path="/workout"
-          render={() => (
-            <Workout
-              workout={formattedWorkout}
-              log={log}
-              setLog={setLog}
-              setWeights={setWeights}
-              setWorkout={setWorkout}
-            />
-          )}
-        />
-        <Route
-          exact
-          path="/log"
-          render={() => <Log log={log} setLog={setLog} />}
-        />
-      </Switch>
+      <div className="app">
+        <Switch>
+          <Route
+            exact
+            path="/"
+            render={() => <Main workout={formattedWorkout} />}
+          />
+          <Route
+            exact
+            path="/workout"
+            render={() => (
+              <Workout
+                workout={formattedWorkout}
+                log={log}
+                setLog={setLog}
+                setWeights={setWeights}
+                setWorkout={setWorkout}
+              />
+            )}
+          />
+          <Route
+            exact
+            path="/log"
+            render={() => <Log log={log} setLog={setLog} />}
+          />
+        </Switch>
+      </div>
     </BrowserRouter>
   );
 };

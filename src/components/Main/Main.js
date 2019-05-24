@@ -10,9 +10,16 @@ import "./Main.css";
 export const Main = ({ workout }) => {
   return (
     <div className="main">
+      <div className="main__navLinks">
+        <Link to="/log" className="viewLog">
+          <i className="fas fa-clipboard-list" /> View Log
+        </Link>
+        <Link className="startWorkout" to="/workout">
+          Start Workout
+        </Link>
+      </div>
       <About />
       <NextWorkout workout={workout} />
-      <Link to="/log">View Log</Link>
     </div>
   );
 };
