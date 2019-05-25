@@ -1,0 +1,65 @@
+.workoutCard__title {
+  font-size: 1.5rem;
+  color: white;
+  background: var(--blue);
+  padding: 0.5rem;
+  text-align: center;
+  border-radius: 5px 5px 0 0;
+  margin-bottom: 1rem;
+}
+
+.workoutCard__columnLabels th {
+  font-weight: bold;
+  padding-bottom: 0.5rem;
+}
+
+.workout table {
+  padding: 0.25rem;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+.increment,
+.decrement {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 5px;
+  font-weight: bold;
+  font-size: 1.5rem;
+  outline: none;
+}
+
+.plus,
+.minus {
+  display: grid;
+  align-content: center;
+  justify-content: center;
+}
+
+.userEnteredValue {
+  padding: 0 0.25rem;
+}
+
+.workout__buttonsWrap {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  grid-gap: 0.5rem;
+}
+
+.workout__cancel,
+.workout__save {
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 1.25rem;
+  text-align: center;
+  padding: 0.5rem;
+}
+
+.workout__cancel {
+  background: var(--red);
+  padding: 0.5rem 1rem;
+}
+.workout__save {
+  background: var(--green);
+}

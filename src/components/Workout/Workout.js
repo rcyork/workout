@@ -1,13 +1,12 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { roundToNearestFive } from "../../utils/roundToNearestFive";
+import { WORKOUT_NAMES } from "../../utils/workoutNames";
 import { getNextWorkout } from "../../utils/getNextWorkout";
 
 import "./Workout.css";
 
 export const Workout = ({ workout, setLog, setWeights, setWorkout }) => {
-  console.log(workout);
-
   const [userEnteredWeights, setUserEnteredWeights] = useState([
     { name: "deadlift", weight: 0, amrapNumber: 0, completed: false },
     { name: "row", weight: 0, amrapNumber: 0, completed: false },
@@ -60,39 +59,52 @@ export const Workout = ({ workout, setLog, setWeights, setWorkout }) => {
 
   return (
     <div className="workout">
-      <Link to="/">Cancel</Link>
       <div className="workoutCard">
+        <h2 className="workoutCard__title">
+          {WORKOUT_NAMES.find(name => name.id === workout.id).fullName}
+        </h2>
         <table>
           <tbody>
-            <tr>
-              <th>Exercise</th>
-              <th>Sets x Reps</th>
+            <tr className="workoutCard__columnLabels">
+              <th align="left">Exercise</th>
+              <th align="center">Sets x Reps</th>
               {workoutContainsAmrapExercise ? <th>AMRAP #</th> : null}
-              <th>Weight</th>
-              <th>Completed?</th>
+              <th align="center">Weight</th>
+              <th>
+                <span role="img" aria-label="completed?" align="right">
+                  ✅
+                </span>
+                ?
+              </th>
             </tr>
             {workout.exercises.map(exercise => {
               return (
                 <tr key={exercise.name}>
-                  <th>{exercise.name}</th>
-                  <td>
+                  <th align="left">{exercise.name}</th>
+                  <td align="center">
                     {exercise.sets} x {exercise.reps}
                   </td>
                   {workoutContainsAmrapExercise ? (
-                    <td>
+                    <td align="center">
                       {exercise.amrap ? (
                         <div>
                           <div>
                             <button
+                              className="decrement"
                               onClick={() =>
                                 decrement(exercise.name, 1, "amrapNumber")
                               }
                             >
-                              <span role="img" aria-label="plus">
+                              {/* <span
+                                role="img"
+                                aria-label="minus"
+                                className="minus"
+                              >
                                 ➖
-                              </span>
+                              </span> */}
+                              -
                             </button>
-                            <span>
+                            <span className="userEnteredValue">
                               {
                                 userEnteredWeights.find(
                                   item => item.name === exercise.name
@@ -100,13 +112,19 @@ export const Workout = ({ workout, setLog, setWeights, setWorkout }) => {
                               }
                             </span>
                             <button
+                              className="increment"
                               onClick={() =>
                                 increment(exercise.name, 1, "amrapNumber")
                               }
                             >
-                              <span role="img" aria-label="minus">
+                              {/* <span
+                                role="img"
+                                aria-label="plus"
+                                className="plus"
+                              >
                                 ➕
-                              </span>
+                              </span> */}
+                              +
                             </button>
                           </div>
                         </div>
@@ -115,18 +133,20 @@ export const Workout = ({ workout, setLog, setWeights, setWorkout }) => {
                       )}
                     </td>
                   ) : null}
-                  <td>
+                  <td align="center">
                     {(needsUserInput && exercise.weight === 0) ||
                     exercise.weight === null ? (
                       <div>
                         <button
+                          className="decrement"
                           onClick={() => decrement(exercise.name, 5, "weight")}
                         >
-                          <span role="img" aria-label="plus">
+                          {/* <span role="img" aria-label="minus" className="minus">
                             ➖
-                          </span>
+                          </span> */}
+                          -
                         </button>
-                        <span>
+                        <span className="userEnteredValue">
                           {
                             userEnteredWeights.find(
                               item => item.name === exercise.name
@@ -134,11 +154,13 @@ export const Workout = ({ workout, setLog, setWeights, setWorkout }) => {
                           }
                         </span>
                         <button
+                          className="increment"
                           onClick={() => increment(exercise.name, 5, "weight")}
                         >
-                          <span role="img" aria-label="minus">
+                          +
+                          {/* <span role="img" aria-label="plus" className="plus">
                             ➕
-                          </span>
+                          </span> */}
                         </button>
                       </div>
                     ) : exercise.reps === 8 ? (
@@ -149,6 +171,7 @@ export const Workout = ({ workout, setLog, setWeights, setWorkout }) => {
                   </td>
                   <td>
                     <input
+                      align="right"
                       type="checkbox"
                       onChange={() => onCompletedChange(exercise.name)}
                       checked={
@@ -164,74 +187,80 @@ export const Workout = ({ workout, setLog, setWeights, setWorkout }) => {
           </tbody>
         </table>
       </div>
-      <Link
-        to="/"
-        onClick={() => {
-          setWeights(weights =>
-            weights.map(weightsEntry => {
-              const endOfWeek = workout.id.endsWith("3");
-              const isExerciseFromThisWorkout = workout.exercises.some(
-                exercise => exercise.name === weightsEntry.name
-              );
-              const correspondingExercise = userEnteredWeights.find(
-                item => item.name === weightsEntry.name
-              );
-              console.log(weightsEntry.name, weightsEntry.failuresInARow);
-
-              return {
-                ...weightsEntry,
-                failuresInARow:
-                  isExerciseFromThisWorkout === false
-                    ? weightsEntry.failuresInARow // return intial value
-                    : correspondingExercise.completed
-                    ? 0 // reset to 0 if they completed the exercise
-                    : weightsEntry.failuresInARow === 0
-                    ? weightsEntry.failuresInARow + 1 // add one to failures in a row
-                    : 0, // reset to zero because they've failed twice in a row and will now be deloaded
-                weight:
-                  weightsEntry.failuresInARow === 0 &&
-                  correspondingExercise.completed === false // failed for the first time -> try weight again
-                    ? weightsEntry.weight
-                    : weightsEntry.failuresInARow >= 1 &&
-                      correspondingExercise.completed === false // failed twice in a row -> deload
-                    ? weightsEntry.weight * 0.9
-                    : correspondingExercise.amrap >= 8 // amrap >= 8 -> double progression
-                    ? weightsEntry.weight + weightsEntry.progressionRate * 2
-                    : endOfWeek // starting new week -> regular progression
-                    ? weightsEntry.weight + weightsEntry.progressionRate
-                    : weightsEntry.weight
-              };
-            })
-          );
-          setWorkout(workout => (workout = getNextWorkout(workout.id)));
-          setLog(log =>
-            log.concat({
-              ...workout,
-              date: new Date(),
-              exercises: workout.exercises.map(exercise => {
-                const correspondingExercise = userEnteredWeights.find(
-                  item => item.name === exercise.name
+      <div className="workout__buttonsWrap">
+        <Link to="/" className="workout__cancel">
+          Cancel
+        </Link>
+        <Link
+          to="/"
+          className="workout__save"
+          onClick={() => {
+            setWeights(weights =>
+              weights.map(weightsEntry => {
+                const endOfWeek = workout.id.endsWith("3");
+                const isExerciseFromThisWorkout = workout.exercises.some(
+                  exercise => exercise.name === weightsEntry.name
                 );
-                // use inital weight unless the user has entered a weight
-                const appropriateWeight =
-                  correspondingExercise.weight === 0
-                    ? exercise.weight
-                    : exercise.reps === 8
-                    ? roundToNearestFive(correspondingExercise.weight / 0.9) // converts user entered weight into correct '4 rep weight' that we use to log weights over time
-                    : correspondingExercise.weight;
+                const correspondingExercise = userEnteredWeights.find(
+                  item => item.name === weightsEntry.name
+                );
+                console.log(weightsEntry.name, weightsEntry.failuresInARow);
 
                 return {
-                  ...exercise,
-                  weight: appropriateWeight,
-                  completed: correspondingExercise.completed
+                  ...weightsEntry,
+                  failuresInARow:
+                    isExerciseFromThisWorkout === false
+                      ? weightsEntry.failuresInARow // return intial value
+                      : correspondingExercise.completed
+                      ? 0 // reset to 0 if they completed the exercise
+                      : weightsEntry.failuresInARow === 0
+                      ? weightsEntry.failuresInARow + 1 // add one to failures in a row
+                      : 0, // reset to zero because they've failed twice in a row and will now be deloaded
+                  weight:
+                    weightsEntry.failuresInARow === 0 &&
+                    correspondingExercise.completed === false // failed for the first time -> try weight again
+                      ? weightsEntry.weight
+                      : weightsEntry.failuresInARow >= 1 &&
+                        correspondingExercise.completed === false // failed twice in a row -> deload
+                      ? weightsEntry.weight * 0.9
+                      : correspondingExercise.amrap >= 8 // amrap >= 8 -> double progression
+                      ? weightsEntry.weight + weightsEntry.progressionRate * 2
+                      : endOfWeek // starting new week -> regular progression
+                      ? weightsEntry.weight + weightsEntry.progressionRate
+                      : weightsEntry.weight
                 };
               })
-            })
-          );
-        }}
-      >
-        Save Workout
-      </Link>
+            );
+            setWorkout(workout => (workout = getNextWorkout(workout.id)));
+            setLog(log =>
+              log.concat({
+                ...workout,
+                date: new Date(),
+                exercises: workout.exercises.map(exercise => {
+                  const correspondingExercise = userEnteredWeights.find(
+                    item => item.name === exercise.name
+                  );
+                  // use inital weight unless the user has entered a weight
+                  const appropriateWeight =
+                    correspondingExercise.weight === 0
+                      ? exercise.weight
+                      : exercise.reps === 8
+                      ? roundToNearestFive(correspondingExercise.weight / 0.9) // converts user entered weight into correct '4 rep weight' that we use to log weights over time
+                      : correspondingExercise.weight;
+
+                  return {
+                    ...exercise,
+                    weight: appropriateWeight,
+                    completed: correspondingExercise.completed
+                  };
+                })
+              })
+            );
+          }}
+        >
+          Save Workout
+        </Link>
+      </div>
     </div>
   );
 };
