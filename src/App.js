@@ -52,7 +52,159 @@ export const App = () => {
       ]
     },
     {
-      date: 1558131740591,
+      date: 1558131770591,
+      id: "wad1",
+      exercises: [
+        {
+          name: "bench",
+          sets: 4,
+          reps: 4,
+          amrap: false,
+          weight: 200,
+          completed: true
+        },
+        {
+          name: "squat",
+          sets: 4,
+          reps: 8,
+          amrap: false,
+          weight: 200,
+          completed: false
+        },
+        {
+          name: "ohp",
+          sets: 4,
+          reps: 8,
+          amrap: false,
+          weight: 200,
+          completed: true
+        },
+        {
+          name: "chinup",
+          sets: 4,
+          reps: 8,
+          amrap: false,
+          weight: 200,
+          completed: false
+        }
+      ]
+    },
+    {
+      date: 1558131760591,
+      id: "wad1",
+      exercises: [
+        {
+          name: "bench",
+          sets: 4,
+          reps: 4,
+          amrap: false,
+          weight: 200,
+          completed: true
+        },
+        {
+          name: "squat",
+          sets: 4,
+          reps: 8,
+          amrap: false,
+          weight: 200,
+          completed: false
+        },
+        {
+          name: "ohp",
+          sets: 4,
+          reps: 8,
+          amrap: false,
+          weight: 200,
+          completed: true
+        },
+        {
+          name: "chinup",
+          sets: 4,
+          reps: 8,
+          amrap: false,
+          weight: 200,
+          completed: false
+        }
+      ]
+    },
+    {
+      date: 1558131730591,
+      id: "wad1",
+      exercises: [
+        {
+          name: "bench",
+          sets: 4,
+          reps: 4,
+          amrap: false,
+          weight: 200,
+          completed: true
+        },
+        {
+          name: "squat",
+          sets: 4,
+          reps: 8,
+          amrap: false,
+          weight: 200,
+          completed: false
+        },
+        {
+          name: "ohp",
+          sets: 4,
+          reps: 8,
+          amrap: false,
+          weight: 200,
+          completed: true
+        },
+        {
+          name: "chinup",
+          sets: 4,
+          reps: 8,
+          amrap: false,
+          weight: 200,
+          completed: false
+        }
+      ]
+    },
+    {
+      date: 1558131720591,
+      id: "wad1",
+      exercises: [
+        {
+          name: "bench",
+          sets: 4,
+          reps: 4,
+          amrap: false,
+          weight: 200,
+          completed: true
+        },
+        {
+          name: "squat",
+          sets: 4,
+          reps: 8,
+          amrap: false,
+          weight: 200,
+          completed: false
+        },
+        {
+          name: "ohp",
+          sets: 4,
+          reps: 8,
+          amrap: false,
+          weight: 200,
+          completed: true
+        },
+        {
+          name: "chinup",
+          sets: 4,
+          reps: 8,
+          amrap: false,
+          weight: 200,
+          completed: false
+        }
+      ]
+    },
+    {
+      date: 1558131744591,
       id: "wad1",
       exercises: [
         {

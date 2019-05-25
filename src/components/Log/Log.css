@@ -1,0 +1,81 @@
+.log {
+  display: grid;
+  grid-template-rows: max-content 1fr;
+  height: 100%;
+}
+
+.log__homeButton {
+  color: white;
+  background: var(--purple);
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  display: inline-block;
+  border-radius: 5px;
+  margin-bottom: 1rem;
+  width: max-content;
+
+  font-size: 1.5rem;
+}
+
+.fa-home {
+  margin-right: 0.5rem;
+}
+
+.scrollingLog {
+  display: grid;
+  grid-auto-flow: row;
+  overflow-y: scroll;
+  align-content: flex-start;
+  grid-gap: 1rem;
+}
+
+.logCard {
+  background: var(--grey);
+  border-radius: 5px;
+}
+
+.logCard__banner {
+  color: white;
+  background: var(--blue);
+  display: grid;
+  grid-template-columns: 1fr max-content;
+  padding: 1rem;
+  border-radius: 5px 5px 0 0;
+  position: relative;
+  margin-bottom: 0.5rem;
+}
+
+.logCard__banner__delete {
+  background: inherit;
+  color: inherit;
+  font-size: 1.5rem;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+}
+
+.logCard__banner__titleWrap {
+  text-align: left;
+}
+.logCard__banner__titleWrap h3 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+.logCard__banner__titleWrap p {
+  font-weight: 200;
+  font-size: 0.9rem;
+}
+
+.tableWrap {
+  width: 100%;
+  padding: 0.5rem;
+}
+
+.logCard__table {
+  width: 100%;
+}
+
+.columnLabels th {
+  font-weight: bold;
+  padding-bottom: 0.5rem;
+}

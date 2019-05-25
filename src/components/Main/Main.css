@@ -1,9 +1,9 @@
 .viewLog {
-  background: var(--purple__dark);
+  background: var(--purple);
 }
 
 .startWorkout {
-  background: var(--purple);
+  background: var(--blue__light);
 }
 
 .main__navLinks {
