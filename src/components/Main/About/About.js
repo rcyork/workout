@@ -18,10 +18,6 @@ export const About = () => {
         <li className="about__bullet">
           Test your strength with 'as many reps as possible' aka AMRAP sets
         </li>
-        <li className="about__bullet">
-          If you test very well we will increase your weights to stay in line
-          with your strength gains so you always keep improving
-        </li>
       </ul>
     </div>
   );

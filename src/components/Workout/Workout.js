@@ -63,129 +63,123 @@ export const Workout = ({ workout, setLog, setWeights, setWorkout }) => {
         <h2 className="workoutCard__title">
           {WORKOUT_NAMES.find(name => name.id === workout.id).fullName}
         </h2>
-        <table>
-          <tbody>
-            <tr className="workoutCard__columnLabels">
-              <th align="left">Exercise</th>
-              <th align="center">Sets x Reps</th>
-              {workoutContainsAmrapExercise ? <th>AMRAP #</th> : null}
-              <th align="center">Weight</th>
-              <th>
-                <span role="img" aria-label="completed?" align="right">
-                  ✅
-                </span>
-                ?
-              </th>
-            </tr>
-            {workout.exercises.map(exercise => {
-              return (
-                <tr key={exercise.name}>
-                  <th align="left">{exercise.name}</th>
-                  <td align="center">
-                    {exercise.sets} x {exercise.reps}
-                  </td>
-                  {workoutContainsAmrapExercise ? (
+        <div className="workout__tableWrap">
+          <table>
+            <tbody>
+              <tr className="workoutCard__columnLabels">
+                <th align="left">Exercise</th>
+                <th align="center">SetsxReps</th>
+                {workoutContainsAmrapExercise ? <th>AMRAP</th> : null}
+                <th align="center">Weight</th>
+                <th>
+                  <span role="img" aria-label="completed?" align="right">
+                    ✅
+                  </span>
+                  ?
+                </th>
+              </tr>
+              {workout.exercises.map(exercise => {
+                return (
+                  <tr key={exercise.name}>
+                    <th align="left">{exercise.name}</th>
                     <td align="center">
-                      {exercise.amrap ? (
-                        <div>
+                      {`${exercise.sets}x${exercise.reps} ${
+                        exercise.amrap ? "+ 1xAMRAP" : ""
+                      }`}
+                    </td>
+                    {workoutContainsAmrapExercise ? (
+                      <td align="center">
+                        {exercise.amrap ? (
                           <div>
-                            <button
-                              className="decrement"
-                              onClick={() =>
-                                decrement(exercise.name, 1, "amrapNumber")
-                              }
-                            >
-                              {/* <span
-                                role="img"
-                                aria-label="minus"
-                                className="minus"
+                            <div>
+                              <button
+                                className="decrement"
+                                onClick={() =>
+                                  decrement(exercise.name, 1, "amrapNumber")
+                                }
                               >
-                                ➖
-                              </span> */}
-                              -
-                            </button>
-                            <span className="userEnteredValue">
-                              {
-                                userEnteredWeights.find(
-                                  item => item.name === exercise.name
-                                ).amrapNumber
-                              }
-                            </span>
-                            <button
-                              className="increment"
-                              onClick={() =>
-                                increment(exercise.name, 1, "amrapNumber")
-                              }
-                            >
-                              {/* <span
-                                role="img"
-                                aria-label="plus"
-                                className="plus"
+                                -
+                              </button>
+                              <span className="userEnteredValue">
+                                {
+                                  userEnteredWeights.find(
+                                    item => item.name === exercise.name
+                                  ).amrapNumber
+                                }
+                              </span>
+                              <button
+                                className="increment"
+                                onClick={() =>
+                                  increment(exercise.name, 1, "amrapNumber")
+                                }
                               >
-                                ➕
-                              </span> */}
-                              +
-                            </button>
+                                +
+                              </button>
+                            </div>
                           </div>
+                        ) : (
+                          <div />
+                        )}
+                      </td>
+                    ) : null}
+                    <td align="center">
+                      {(needsUserInput && exercise.weight === 0) ||
+                      exercise.weight === null ? (
+                        <div>
+                          <button
+                            className="decrement"
+                            onClick={() =>
+                              decrement(exercise.name, 5, "weight")
+                            }
+                          >
+                            {/* <span role="img" aria-label="minus" className="minus">
+                              ➖
+                            </span> */}
+                            -
+                          </button>
+                          <span className="userEnteredValue">
+                            {
+                              userEnteredWeights.find(
+                                item => item.name === exercise.name
+                              ).weight
+                            }
+                          </span>
+                          <button
+                            className="increment"
+                            onClick={() =>
+                              increment(exercise.name, 5, "weight")
+                            }
+                          >
+                            +
+                            {/* <span role="img" aria-label="plus" className="plus">
+                              ➕
+                            </span> */}
+                          </button>
                         </div>
+                      ) : exercise.reps === 8 ? (
+                        roundToNearestFive(exercise.weight * 0.9)
                       ) : (
-                        <div />
+                        exercise.weight
                       )}
                     </td>
-                  ) : null}
-                  <td align="center">
-                    {(needsUserInput && exercise.weight === 0) ||
-                    exercise.weight === null ? (
-                      <div>
-                        <button
-                          className="decrement"
-                          onClick={() => decrement(exercise.name, 5, "weight")}
-                        >
-                          {/* <span role="img" aria-label="minus" className="minus">
-                            ➖
-                          </span> */}
-                          -
-                        </button>
-                        <span className="userEnteredValue">
-                          {
-                            userEnteredWeights.find(
-                              item => item.name === exercise.name
-                            ).weight
-                          }
-                        </span>
-                        <button
-                          className="increment"
-                          onClick={() => increment(exercise.name, 5, "weight")}
-                        >
-                          +
-                          {/* <span role="img" aria-label="plus" className="plus">
-                            ➕
-                          </span> */}
-                        </button>
-                      </div>
-                    ) : exercise.reps === 8 ? (
-                      roundToNearestFive(exercise.weight * 0.9)
-                    ) : (
-                      exercise.weight
-                    )}
-                  </td>
-                  <td>
-                    <input
-                      align="right"
-                      type="checkbox"
-                      onChange={() => onCompletedChange(exercise.name)}
-                      checked={
-                        userEnteredWeights.find(
-                          item => item.name === exercise.name
-                        ).completed
-                      }
-                    />
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+                    <td>
+                      <input
+                        align="right"
+                        type="checkbox"
+                        onChange={() => onCompletedChange(exercise.name)}
+                        checked={
+                          userEnteredWeights.find(
+                            item => item.name === exercise.name
+                          ).completed
+                        }
+                      />
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
       </div>
       <div className="workout__buttonsWrap">
         <Link to="/" className="workout__cancel">

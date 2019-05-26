@@ -13,234 +13,234 @@ import "./App.css";
 export const App = () => {
   const [weights, setWeights] = useState(INTIAL_WEIGHTS);
   const [log, setLog] = useState([
-    {
-      date: new Date(),
-      id: "wad1",
-      exercises: [
-        {
-          name: "bench",
-          sets: 4,
-          reps: 4,
-          amrap: false,
-          weight: 100,
-          completed: true
-        },
-        {
-          name: "squat",
-          sets: 4,
-          reps: 8,
-          amrap: false,
-          weight: 110,
-          completed: false
-        },
-        {
-          name: "ohp",
-          sets: 4,
-          reps: 8,
-          amrap: false,
-          weight: 120,
-          completed: true
-        },
-        {
-          name: "chinup",
-          sets: 4,
-          reps: 8,
-          amrap: false,
-          weight: 130,
-          completed: false
-        }
-      ]
-    },
-    {
-      date: 1558131770591,
-      id: "wad1",
-      exercises: [
-        {
-          name: "bench",
-          sets: 4,
-          reps: 4,
-          amrap: false,
-          weight: 200,
-          completed: true
-        },
-        {
-          name: "squat",
-          sets: 4,
-          reps: 8,
-          amrap: false,
-          weight: 200,
-          completed: false
-        },
-        {
-          name: "ohp",
-          sets: 4,
-          reps: 8,
-          amrap: false,
-          weight: 200,
-          completed: true
-        },
-        {
-          name: "chinup",
-          sets: 4,
-          reps: 8,
-          amrap: false,
-          weight: 200,
-          completed: false
-        }
-      ]
-    },
-    {
-      date: 1558131760591,
-      id: "wad1",
-      exercises: [
-        {
-          name: "bench",
-          sets: 4,
-          reps: 4,
-          amrap: false,
-          weight: 200,
-          completed: true
-        },
-        {
-          name: "squat",
-          sets: 4,
-          reps: 8,
-          amrap: false,
-          weight: 200,
-          completed: false
-        },
-        {
-          name: "ohp",
-          sets: 4,
-          reps: 8,
-          amrap: false,
-          weight: 200,
-          completed: true
-        },
-        {
-          name: "chinup",
-          sets: 4,
-          reps: 8,
-          amrap: false,
-          weight: 200,
-          completed: false
-        }
-      ]
-    },
-    {
-      date: 1558131730591,
-      id: "wad1",
-      exercises: [
-        {
-          name: "bench",
-          sets: 4,
-          reps: 4,
-          amrap: false,
-          weight: 200,
-          completed: true
-        },
-        {
-          name: "squat",
-          sets: 4,
-          reps: 8,
-          amrap: false,
-          weight: 200,
-          completed: false
-        },
-        {
-          name: "ohp",
-          sets: 4,
-          reps: 8,
-          amrap: false,
-          weight: 200,
-          completed: true
-        },
-        {
-          name: "chinup",
-          sets: 4,
-          reps: 8,
-          amrap: false,
-          weight: 200,
-          completed: false
-        }
-      ]
-    },
-    {
-      date: 1558131720591,
-      id: "wad1",
-      exercises: [
-        {
-          name: "bench",
-          sets: 4,
-          reps: 4,
-          amrap: false,
-          weight: 200,
-          completed: true
-        },
-        {
-          name: "squat",
-          sets: 4,
-          reps: 8,
-          amrap: false,
-          weight: 200,
-          completed: false
-        },
-        {
-          name: "ohp",
-          sets: 4,
-          reps: 8,
-          amrap: false,
-          weight: 200,
-          completed: true
-        },
-        {
-          name: "chinup",
-          sets: 4,
-          reps: 8,
-          amrap: false,
-          weight: 200,
-          completed: false
-        }
-      ]
-    },
-    {
-      date: 1558131744591,
-      id: "wad1",
-      exercises: [
-        {
-          name: "bench",
-          sets: 4,
-          reps: 4,
-          amrap: false,
-          weight: 200,
-          completed: true
-        },
-        {
-          name: "squat",
-          sets: 4,
-          reps: 8,
-          amrap: false,
-          weight: 200,
-          completed: false
-        },
-        {
-          name: "ohp",
-          sets: 4,
-          reps: 8,
-          amrap: false,
-          weight: 200,
-          completed: true
-        },
-        {
-          name: "chinup",
-          sets: 4,
-          reps: 8,
-          amrap: false,
-          weight: 200,
-          completed: false
-        }
-      ]
-    }
+    // {
+    //   date: new Date(),
+    //   id: "wad1",
+    //   exercises: [
+    //     {
+    //       name: "bench",
+    //       sets: 4,
+    //       reps: 4,
+    //       amrap: false,
+    //       weight: 100,
+    //       completed: true
+    //     },
+    //     {
+    //       name: "squat",
+    //       sets: 4,
+    //       reps: 8,
+    //       amrap: false,
+    //       weight: 110,
+    //       completed: false
+    //     },
+    //     {
+    //       name: "ohp",
+    //       sets: 4,
+    //       reps: 8,
+    //       amrap: false,
+    //       weight: 120,
+    //       completed: true
+    //     },
+    //     {
+    //       name: "chinup",
+    //       sets: 4,
+    //       reps: 8,
+    //       amrap: false,
+    //       weight: 130,
+    //       completed: false
+    //     }
+    //   ]
+    // },
+    // {
+    //   date: 1558131770591,
+    //   id: "wad1",
+    //   exercises: [
+    //     {
+    //       name: "bench",
+    //       sets: 4,
+    //       reps: 4,
+    //       amrap: false,
+    //       weight: 200,
+    //       completed: true
+    //     },
+    //     {
+    //       name: "squat",
+    //       sets: 4,
+    //       reps: 8,
+    //       amrap: false,
+    //       weight: 200,
+    //       completed: false
+    //     },
+    //     {
+    //       name: "ohp",
+    //       sets: 4,
+    //       reps: 8,
+    //       amrap: false,
+    //       weight: 200,
+    //       completed: true
+    //     },
+    //     {
+    //       name: "chinup",
+    //       sets: 4,
+    //       reps: 8,
+    //       amrap: false,
+    //       weight: 200,
+    //       completed: false
+    //     }
+    //   ]
+    // },
+    // {
+    //   date: 1558131760591,
+    //   id: "wad1",
+    //   exercises: [
+    //     {
+    //       name: "bench",
+    //       sets: 4,
+    //       reps: 4,
+    //       amrap: false,
+    //       weight: 200,
+    //       completed: true
+    //     },
+    //     {
+    //       name: "squat",
+    //       sets: 4,
+    //       reps: 8,
+    //       amrap: false,
+    //       weight: 200,
+    //       completed: false
+    //     },
+    //     {
+    //       name: "ohp",
+    //       sets: 4,
+    //       reps: 8,
+    //       amrap: false,
+    //       weight: 200,
+    //       completed: true
+    //     },
+    //     {
+    //       name: "chinup",
+    //       sets: 4,
+    //       reps: 8,
+    //       amrap: false,
+    //       weight: 200,
+    //       completed: false
+    //     }
+    //   ]
+    // },
+    // {
+    //   date: 1558131730591,
+    //   id: "wad1",
+    //   exercises: [
+    //     {
+    //       name: "bench",
+    //       sets: 4,
+    //       reps: 4,
+    //       amrap: false,
+    //       weight: 200,
+    //       completed: true
+    //     },
+    //     {
+    //       name: "squat",
+    //       sets: 4,
+    //       reps: 8,
+    //       amrap: false,
+    //       weight: 200,
+    //       completed: false
+    //     },
+    //     {
+    //       name: "ohp",
+    //       sets: 4,
+    //       reps: 8,
+    //       amrap: false,
+    //       weight: 200,
+    //       completed: true
+    //     },
+    //     {
+    //       name: "chinup",
+    //       sets: 4,
+    //       reps: 8,
+    //       amrap: false,
+    //       weight: 200,
+    //       completed: false
+    //     }
+    //   ]
+    // },
+    // {
+    //   date: 1558131720591,
+    //   id: "wad1",
+    //   exercises: [
+    //     {
+    //       name: "bench",
+    //       sets: 4,
+    //       reps: 4,
+    //       amrap: false,
+    //       weight: 200,
+    //       completed: true
+    //     },
+    //     {
+    //       name: "squat",
+    //       sets: 4,
+    //       reps: 8,
+    //       amrap: false,
+    //       weight: 200,
+    //       completed: false
+    //     },
+    //     {
+    //       name: "ohp",
+    //       sets: 4,
+    //       reps: 8,
+    //       amrap: false,
+    //       weight: 200,
+    //       completed: true
+    //     },
+    //     {
+    //       name: "chinup",
+    //       sets: 4,
+    //       reps: 8,
+    //       amrap: false,
+    //       weight: 200,
+    //       completed: false
+    //     }
+    //   ]
+    // },
+    // {
+    //   date: 1558131744591,
+    //   id: "wad1",
+    //   exercises: [
+    //     {
+    //       name: "bench",
+    //       sets: 4,
+    //       reps: 4,
+    //       amrap: false,
+    //       weight: 200,
+    //       completed: true
+    //     },
+    //     {
+    //       name: "squat",
+    //       sets: 4,
+    //       reps: 8,
+    //       amrap: false,
+    //       weight: 200,
+    //       completed: false
+    //     },
+    //     {
+    //       name: "ohp",
+    //       sets: 4,
+    //       reps: 8,
+    //       amrap: false,
+    //       weight: 200,
+    //       completed: true
+    //     },
+    //     {
+    //       name: "chinup",
+    //       sets: 4,
+    //       reps: 8,
+    //       amrap: false,
+    //       weight: 200,
+    //       completed: false
+    //     }
+    //   ]
+    // }
   ]);
   const [workout, setWorkout] = useState(
     WORKOUTS.find(workout => workout.id === "wad3")

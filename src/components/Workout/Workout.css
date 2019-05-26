@@ -8,15 +8,20 @@
   margin-bottom: 1rem;
 }
 
+.workout__tableWrap {
+  width: 100%;
+}
+
 .workoutCard__columnLabels th {
   font-weight: bold;
   padding-bottom: 0.5rem;
 }
 
 .workout table {
+  width: 100%;
   padding: 0.25rem;
   margin-bottom: 1rem;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
 }
 
 .increment,
@@ -62,4 +67,10 @@
 }
 .workout__save {
   background: var(--green);
+}
+
+@media all and (min-width: 375px) {
+  .workout table {
+    font-size: 1rem;
+  }
 }

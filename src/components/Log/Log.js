@@ -22,6 +22,9 @@ export const Log = ({ log, setLog }) => {
         home
       </Link>
       <div className="scrollingLog">
+        {!log || log.length === 0 ? (
+          <p>You have no completed workouts</p>
+        ) : null}
         {log.map(logEntry => (
           <div className="logCard" key={logEntry.date}>
             <div className="logCard__banner">
@@ -46,7 +49,7 @@ export const Log = ({ log, setLog }) => {
                 <tbody>
                   <tr className="columnLabels">
                     <th align="left">exercise</th>
-                    <th align="center">sets x reps</th>
+                    <th align="center">SetsxReps</th>
                     <th align="center">weight</th>
                     <th align="right">
                       <span role="img" aria-label="checkmark">
@@ -60,7 +63,9 @@ export const Log = ({ log, setLog }) => {
                       <tr key={exercise.name}>
                         <th align="left">{exercise.name}</th>
                         <td align="center">
-                          {exercise.sets} x {exercise.reps}
+                          {`${exercise.sets}x${exercise.reps} ${
+                            exercise.amrap ? "+ 1xAMRAP" : ""
+                          }`}
                         </td>
                         <td align="center">{exercise.weight}</td>
                         <td align="right">

@@ -17,15 +17,15 @@ export const NextWorkout = ({ workout }) => {
         <table className="nextWorkout__table">
           <tbody>
             <tr className="columnLables">
-              <th align="left">exercise</th>
-              <th align="center">sets x reps</th>
-              <th align="right">weight</th>
+              <th align="left">Exercise</th>
+              <th align="center">SetsxReps</th>
+              <th align="right">Weight</th>
             </tr>
             {workout.exercises.map(exercise => {
               return (
                 <tr key={exercise.name}>
                   <th align="left">{exercise.name}</th>
-                  <td align="center">{`${exercise.sets} x ${exercise.reps} ${
+                  <td align="center">{`${exercise.sets}x${exercise.reps} ${
                     exercise.amrap ? "+ 1xAMRAP" : ""
                   }`}</td>
                   <td align="right">
