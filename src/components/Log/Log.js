@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import moment from "moment";
 
@@ -7,6 +7,10 @@ import { WORKOUT_NAMES } from "../../utils/workoutNames";
 import "./Log.css";
 
 export const Log = ({ log, setLog }) => {
+  useEffect(() => {
+    localStorage.setItem("log", JSON.stringify(log));
+  });
+
   const deleteLogEntry = date => {
     setLog(log => {
       return log.filter(entry => {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { roundToNearestFive } from "../../utils/roundToNearestFive";
 import { WORKOUT_NAMES } from "../../utils/workoutNames";
@@ -6,7 +6,14 @@ import { getNextWorkout } from "../../utils/getNextWorkout";
 
 import "./Workout.css";
 
-export const Workout = ({ workout, setLog, setWeights, setWorkout }) => {
+export const Workout = ({
+  workout,
+  setLog,
+  setWeights,
+  setWorkout,
+  weights,
+  log
+}) => {
   const [userEnteredWeights, setUserEnteredWeights] = useState([
     { name: "deadlift", weight: 0, amrapNumber: 0, completed: false },
     { name: "row", weight: 0, amrapNumber: 0, completed: false },
@@ -132,9 +139,6 @@ export const Workout = ({ workout, setLog, setWeights, setWorkout }) => {
                               decrement(exercise.name, 5, "weight")
                             }
                           >
-                            {/* <span role="img" aria-label="minus" className="minus">
-                              ➖
-                            </span> */}
                             -
                           </button>
                           <span className="userEnteredValue">
@@ -151,9 +155,6 @@ export const Workout = ({ workout, setLog, setWeights, setWorkout }) => {
                             }
                           >
                             +
-                            {/* <span role="img" aria-label="plus" className="plus">
-                              ➕
-                            </span> */}
                           </button>
                         </div>
                       ) : exercise.reps === 8 ? (
@@ -189,41 +190,45 @@ export const Workout = ({ workout, setLog, setWeights, setWorkout }) => {
           to="/"
           className="workout__save"
           onClick={() => {
-            setWeights(weights =>
-              weights.map(weightsEntry => {
-                const endOfWeek = workout.id.endsWith("3");
-                const isExerciseFromThisWorkout = workout.exercises.some(
-                  exercise => exercise.name === weightsEntry.name
-                );
-                const correspondingExercise = userEnteredWeights.find(
-                  item => item.name === weightsEntry.name
-                );
-                console.log(weightsEntry.name, weightsEntry.failuresInARow);
+            setWeights(
+              weights =>
+                weights.map(weightsEntry => {
+                  const endOfWeek = workout.id.endsWith("3");
+                  const isExerciseFromThisWorkout = workout.exercises.some(
+                    exercise => exercise.name === weightsEntry.name
+                  );
+                  const correspondingExercise = userEnteredWeights.find(
+                    item => item.name === weightsEntry.name
+                  );
+                  console.log(weightsEntry.name, weightsEntry.failuresInARow);
 
-                return {
-                  ...weightsEntry,
-                  failuresInARow:
-                    isExerciseFromThisWorkout === false
-                      ? weightsEntry.failuresInARow // return intial value
-                      : correspondingExercise.completed
-                      ? 0 // reset to 0 if they completed the exercise
-                      : weightsEntry.failuresInARow === 0
-                      ? weightsEntry.failuresInARow + 1 // add one to failures in a row
-                      : 0, // reset to zero because they've failed twice in a row and will now be deloaded
-                  weight:
-                    weightsEntry.failuresInARow === 0 &&
-                    correspondingExercise.completed === false // failed for the first time -> try weight again
-                      ? weightsEntry.weight
-                      : weightsEntry.failuresInARow >= 1 &&
-                        correspondingExercise.completed === false // failed twice in a row -> deload
-                      ? weightsEntry.weight * 0.9
-                      : correspondingExercise.amrap >= 8 // amrap >= 8 -> double progression
-                      ? weightsEntry.weight + weightsEntry.progressionRate * 2
-                      : endOfWeek // starting new week -> regular progression
-                      ? weightsEntry.weight + weightsEntry.progressionRate
-                      : weightsEntry.weight
-                };
-              })
+                  return {
+                    ...weightsEntry,
+                    failuresInARow:
+                      isExerciseFromThisWorkout === false
+                        ? weightsEntry.failuresInARow // return intial value
+                        : correspondingExercise.completed
+                        ? 0 // reset to 0 if they completed the exercise
+                        : weightsEntry.failuresInARow === 0
+                        ? weightsEntry.failuresInARow + 1 // add one to failures in a row
+                        : 0, // reset to zero because they've failed twice in a row and will now be deloaded
+                    weight:
+                      weightsEntry.failuresInARow === 0 &&
+                      correspondingExercise.completed === false // failed for the first time -> try weight again
+                        ? weightsEntry.weight
+                        : weightsEntry.failuresInARow >= 1 &&
+                          correspondingExercise.completed === false // failed twice in a row -> deload
+                        ? weightsEntry.weight * 0.9
+                        : correspondingExercise.amrap >= 8 // amrap >= 8 -> double progression
+                        ? weightsEntry.weight + weightsEntry.progressionRate * 2
+                        : endOfWeek // starting new week -> regular progression
+                        ? weightsEntry.weight + weightsEntry.progressionRate
+                        : weightsEntry.weight
+                  };
+                }),
+              () => {
+                localStorage.setItem("weights", JSON.stringify(weights));
+              }
             );
             setWorkout(workout => (workout = getNextWorkout(workout.id)));
             setLog(log =>
