@@ -14,7 +14,7 @@ export const Main = ({ workout }) => {
         <Link to="/log" className="viewLog">
           <i className="fas fa-clipboard-list" /> View Log
         </Link>
-        <Link className="startWorkout" to="/workout">
+        <Link className="startWorkout" to="/active-workout">
           Start Workout
         </Link>
       </div>

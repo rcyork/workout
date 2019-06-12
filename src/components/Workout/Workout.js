@@ -78,8 +78,8 @@ export const Workout = ({
                 <th align="center">SetsxReps</th>
                 {workoutContainsAmrapExercise ? <th>AMRAP</th> : null}
                 <th align="center">Weight</th>
-                <th>
-                  <span role="img" aria-label="completed?" align="right">
+                <th align="right">
+                  <span role="img" aria-label="completed?">
                     ✅
                   </span>
                   ?
@@ -163,9 +163,8 @@ export const Workout = ({
                         exercise.weight
                       )}
                     </td>
-                    <td>
+                    <td align="right">
                       <input
-                        align="right"
                         type="checkbox"
                         onChange={() => onCompletedChange(exercise.name)}
                         checked={

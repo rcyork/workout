@@ -54,7 +54,7 @@ export const App = () => {
           />
           <Route
             exact
-            path="/workout"
+            path="/active-workout"
             render={() => (
               <Workout
                 workout={formattedWorkout}
