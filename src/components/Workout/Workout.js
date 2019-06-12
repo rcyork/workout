@@ -182,11 +182,11 @@ export const Workout = ({
         </div>
       </div>
       <div className="workout__buttonsWrap">
-        <Link to="/" className="workout__cancel">
+        <Link to="/workout" className="workout__cancel">
           Cancel
         </Link>
         <Link
-          to="/"
+          to="/workout"
           className="workout__save"
           onClick={() => {
             setWeights(

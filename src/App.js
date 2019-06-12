@@ -49,7 +49,7 @@ export const App = () => {
         <Switch>
           <Route
             exact
-            path="/"
+            path="/workout"
             render={() => <Main workout={formattedWorkout} />}
           />
           <Route

@@ -21,7 +21,7 @@ export const Log = ({ log, setLog }) => {
 
   return (
     <div className="log">
-      <Link to="/" className="log__homeButton">
+      <Link to="/workout" className="log__homeButton">
         <i className="fas fa-home" />
         home
       </Link>
