@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { roundToNearestFive } from "../../utils/roundToNearestFive";
 import { WORKOUT_NAMES } from "../../utils/workoutNames";
@@ -263,10 +263,3 @@ export const Workout = ({
     </div>
   );
 };
-
-// things to set upon completion of workout
-// all exercises failuresInARow to 0 as long as they completed the exercise
-// all exercises in this workout haveDoneThisWeek to true
-// if completeing the third workout of the week then set all exercises haveDoneThisWeek to false
-// update exercises in this workouts weights
-//
