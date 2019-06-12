@@ -54,7 +54,7 @@ export const App = () => {
           />
           <Route
             exact
-            path="/active-workout"
+            path="/workout/active-workout"
             render={() => (
               <Workout
                 workout={formattedWorkout}
@@ -68,7 +68,7 @@ export const App = () => {
           />
           <Route
             exact
-            path="/log"
+            path="/workout/log"
             render={() => <Log log={log} setLog={setLog} />}
           />
         </Switch>
