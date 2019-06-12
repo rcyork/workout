@@ -2,6 +2,7 @@
   "name": "workout",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://rcyork.github.io/workout",
   "dependencies": {
     "moment": "^2.24.0",
     "react": "^16.8.5",
@@ -13,7 +14,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": "react-app"
